@@ -1,0 +1,171 @@
+/* ============================================================
+   PKV BUILD s.r.o. — Design System
+   colors_and_type.css
+   Core color + typography foundations.
+   Source of truth: PKV.fig (PKV_manual / PKV_colours sections)
+   ============================================================ */
+
+/* ---- Webfonts ----------------------------------------------
+   Body / UI / headings:  Open Sans  (exact brand font, on Google Fonts)
+   Display / friendly:    Gopher     (COMMERCIAL — NOT on Google Fonts)
+                          → substituted with "Onest" (a geometric sans
+                            that also appears inside PKV.fig). Swap the
+                            @font-face below for licensed Gopher files.
+   Data tables:           Inter      (used for tabular numerics in app)
+------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Onest:wght@300;400;500;600;700;800&family=Inter:wght@400;500;700&display=swap');
+
+:root {
+  /* ===========================================================
+     COLOR — PRIMARY PALETTE  (PKV_manual “Primární barvy”)
+     “Základní barevnost brandu. Paletu lze rozšiřovat o odstíny.”
+     =========================================================== */
+  --pkv-green:        #00CA85;  /* brand primary — the play-triangle green */
+  --pkv-green-dark:   #00A26A;  /* darker green — text/links on light, print-safe */
+  --pkv-mint:         #99EACE;  /* soft mint — hover tint, secondary fills      */
+  --pkv-black:        #1E1E1E;  /* Neutral Black C — primary dark surface       */
+  --pkv-true-black:   #000000;
+  --pkv-white:        #FFFFFF;
+  --pkv-gray:         #A0A0A0;  /* mid gray — muted text                        */
+  --pkv-gray-light:   #E5E5E5;  /* light gray — dividers, light surfaces        */
+  --pkv-gray-dark:    #4C4C4C;  /* dark gray — secondary text on light          */
+
+  /* ===========================================================
+     COLOR — DARK-UI SURFACES & SUPPORT  (observed in app / cards)
+     =========================================================== */
+  --pkv-surface:        #1E1E1E;  /* app / slide background        */
+  --pkv-surface-2:      #292929;  /* raised card on dark           */
+  --pkv-surface-3:      #2A2A2A;  /* input field on dark           */
+  --pkv-border-dark:    #777778;  /* hairline border on dark cards */
+  --pkv-text-muted-dark:#989898;  /* secondary text on dark        */
+
+  /* light surfaces */
+  --pkv-surface-lt:     #FFFFFF;
+  --pkv-surface-lt-2:   #F5F5F5;
+  --pkv-surface-lt-3:   #F3F3F3;
+  --pkv-border-lt:      #E5E5E5;
+
+  /* ===========================================================
+     COLOR — SECONDARY / UI ACCENTS  (button + status palette)
+     Each accent ships a base + a light “hover” tint.
+     =========================================================== */
+  --pkv-yellow:         #F5CB3A;  /* secondary CTA / warning  */
+  --pkv-yellow-hover:   #FAE39C;
+  --pkv-red:            #E83F4D;  /* danger / negative metric */
+  --pkv-red-hover:      #F6C0C4;
+  --pkv-red-dark:       #A11422;
+  --pkv-blue:           #3B5BC6;  /* informational            */
+  --pkv-blue-hover:     #BBC6E8;
+  --pkv-purple:         #6E3FF5;  /* tertiary / highlight     */
+  --pkv-purple-hover:   #D6C6FB;
+
+  /* button hover tints for the core set */
+  --pkv-green-hover:    #99EACE;
+  --pkv-white-hover:    #E5E5E5;
+  --pkv-black-hover:    #4C4C4C;
+
+  /* ===========================================================
+     SEMANTIC TOKENS  (theme-agnostic; defaults to DARK theme,
+     which is PKV's primary presentation surface)
+     =========================================================== */
+  --bg:            var(--pkv-surface);
+  --bg-raised:     var(--pkv-surface-2);
+  --bg-input:      var(--pkv-surface-3);
+  --fg:            var(--pkv-white);     /* primary text   */
+  --fg-muted:      var(--pkv-text-muted-dark);
+  --fg-subtle:     var(--pkv-gray);
+  --border:        var(--pkv-border-dark);
+  --accent:        var(--pkv-green);
+  --accent-ink:    var(--pkv-black);     /* text ON accent green */
+  --link:          var(--pkv-green);
+
+  /* ===========================================================
+     TYPOGRAPHY — FAMILIES
+     =========================================================== */
+  --font-heading: "Open Sans", system-ui, sans-serif;        /* H1–H6, UI, buttons */
+  --font-display: "Onest", "Gopher", "Open Sans", sans-serif; /* friendly display / big numbers / marketing body */
+  --font-body:    "Open Sans", system-ui, sans-serif;
+  --font-data:    "Inter", system-ui, sans-serif;            /* tabular figures */
+
+  /* weights */
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+  --fw-extra:   800;
+
+  /* ===========================================================
+     TYPE SCALE  (PKV_manual “Typografie” — Open Sans Bold headers)
+     H1 64 · H2 48 · H3 36 · H4 24 · H5 20 · H6 16
+     =========================================================== */
+  --t-display: 88px;  /* hero / cover headline (e.g. “Jsme PKV”) */
+  --t-h1: 64px;
+  --t-h2: 48px;
+  --t-h3: 36px;
+  --t-h4: 24px;
+  --t-h5: 20px;
+  --t-h6: 16px;
+  --t-body: 16px;
+  --t-body-lg: 24px;  /* presentation body (Gopher 24) */
+  --t-small: 14px;
+  --t-caption: 12px;
+
+  --lh-tight: 1.0;     /* headings render at 100% line-height in brand */
+  --lh-snug: 1.2;
+  --lh-body: 1.5;
+
+  /* ===========================================================
+     SHAPE — RADII, BORDERS, SHADOW, SPACING
+     =========================================================== */
+  --r-button: 8px;    /* UI buttons (PKV_manual) */
+  --r-input: 12px;
+  --r-card: 20px;     /* cards / panels (observed in app & dashboards) */
+  --r-pill: 999px;
+  --r-app-icon: 26%;  /* squircle app icon */
+
+  --border-hairline: 1px solid var(--border);
+
+  /* PKV is a flat brand — elevation is subtle, mostly borders + soft glow */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.25);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.35);
+  --shadow-green: 0 8px 30px rgba(0,202,133,0.25);
+
+  /* 4px spacing grid */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px; --sp-20: 80px;
+}
+
+/* ============================================================
+   LIGHT THEME OVERRIDE  — add class="pkv-light" to a container
+   ============================================================ */
+.pkv-light {
+  --bg:        var(--pkv-white);
+  --bg-raised: var(--pkv-surface-lt-2);
+  --bg-input:  var(--pkv-white);
+  --fg:        var(--pkv-black);
+  --fg-muted:  var(--pkv-gray-dark);
+  --fg-subtle: var(--pkv-gray);
+  --border:    var(--pkv-border-lt);
+  --accent-ink:var(--pkv-black);
+  --link:      var(--pkv-green-dark);
+}
+
+/* ============================================================
+   SEMANTIC TYPE CLASSES
+   ============================================================ */
+.pkv-display { font-family: var(--font-heading); font-weight: var(--fw-bold); font-size: var(--t-display); line-height: var(--lh-tight); letter-spacing: -0.01em; }
+h1, .pkv-h1 { font-family: var(--font-heading); font-weight: var(--fw-bold); font-size: var(--t-h1); line-height: var(--lh-tight); }
+h2, .pkv-h2 { font-family: var(--font-heading); font-weight: var(--fw-bold); font-size: var(--t-h2); line-height: var(--lh-tight); }
+h3, .pkv-h3 { font-family: var(--font-heading); font-weight: var(--fw-bold); font-size: var(--t-h3); line-height: var(--lh-snug); }
+h4, .pkv-h4 { font-family: var(--font-heading); font-weight: var(--fw-bold); font-size: var(--t-h4); line-height: var(--lh-snug); }
+h5, .pkv-h5 { font-family: var(--font-heading); font-weight: var(--fw-bold); font-size: var(--t-h5); line-height: var(--lh-snug); }
+h6, .pkv-h6 { font-family: var(--font-heading); font-weight: var(--fw-bold); font-size: var(--t-h6); line-height: var(--lh-snug); }
+
+.pkv-body   { font-family: var(--font-body); font-weight: var(--fw-regular); font-size: var(--t-body); line-height: var(--lh-body); }
+.pkv-body-lg{ font-family: var(--font-display); font-weight: var(--fw-regular); font-size: var(--t-body-lg); line-height: 1.4; }
+.pkv-lead   { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: var(--t-h4); line-height: 1.35; }
+.pkv-small  { font-size: var(--t-small); line-height: var(--lh-body); }
+.pkv-caption{ font-size: var(--t-caption); line-height: var(--lh-snug); color: var(--fg-muted); }
+.pkv-stat   { font-family: var(--font-display); font-weight: var(--fw-bold); font-size: var(--t-h2); line-height: var(--lh-tight); color: var(--pkv-green); }
+.pkv-data   { font-family: var(--font-data); font-variant-numeric: tabular-nums; }

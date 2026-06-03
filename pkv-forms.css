@@ -1,0 +1,505 @@
+/* ============================================================
+   PKV Forms — Typeform-style Form Engine
+   Core styles, layout, animations
+   ============================================================ */
+
+/* ---- Root container ---------------------------------------- */
+.pkv-f-root {
+  position: fixed; inset: 0;
+  background: var(--bg, #1E1E1E);
+  color: var(--fg, #fff);
+  font-family: var(--font-body, "Open Sans", system-ui, sans-serif);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Header ------------------------------------------------ */
+.pkv-f-header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 32px 0;
+  flex: none;
+}
+.pkv-f-logo { height: 32px; display: block; }
+.pkv-f-step-count {
+  font-family: var(--font-data, "Inter", monospace);
+  font-variant-numeric: tabular-nums;
+  font-size: 14px; color: var(--fg-muted, #989898);
+}
+
+/* ---- Progress bar ------------------------------------------ */
+.pkv-f-progress {
+  flex: none; height: 3px;
+  background: var(--pkv-surface-2, #292929);
+  margin: 16px 32px 0;
+  border-radius: 2px; overflow: hidden;
+}
+.pkv-f-progress-fill {
+  height: 100%; border-radius: 2px;
+  background: var(--pkv-green, #00CA85);
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- Stage (slide area) ------------------------------------ */
+.pkv-f-stage {
+  flex: 1 1 0%; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+/* ---- Slide ------------------------------------------------- */
+.pkv-f-slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 32px;
+}
+.pkv-f-slide-inner {
+  width: 100%; max-width: 720px;
+}
+
+/* Slide entrance animations */
+@keyframes pkvSlideInUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes pkvSlideInDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+.pkv-f-slide-forward  { animation: pkvSlideInUp   0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pkv-f-slide-backward { animation: pkvSlideInDown 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pkv-f-slide-forward,
+  .pkv-f-slide-backward { animation: none; }
+}
+
+/* ---- Question header --------------------------------------- */
+.pkv-f-q-number {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 15px;
+  color: var(--pkv-green, #00CA85);
+  margin-bottom: 12px;
+}
+.pkv-f-q-number svg { width: 14px; height: 14px; fill: currentColor; }
+.pkv-f-q-title {
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 26px; line-height: 1.2;
+  color: var(--fg, #fff);
+  margin: 0 0 8px;
+}
+.pkv-f-q-title .pkv-f-required {
+  color: var(--pkv-red, #E83F4D); margin-left: 4px; font-size: 20px;
+}
+.pkv-f-q-subtitle {
+  font-family: var(--font-display, "Onest", sans-serif);
+  font-size: 17px; line-height: 1.5;
+  color: var(--fg-muted, #989898);
+  margin: 0 0 28px;
+}
+
+/* ---- Text inputs ------------------------------------------- */
+.pkv-f-input {
+  width: 100%; box-sizing: border-box;
+  background: transparent;
+  border: none; border-bottom: 2px solid var(--pkv-gray-dark, #4C4C4C);
+  padding: 14px 0;
+  color: var(--fg, #fff);
+  font-family: var(--font-display, "Onest", sans-serif);
+  font-size: 22px; line-height: 1.4;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.pkv-f-input::placeholder { color: var(--fg-subtle, #A0A0A0); opacity: 0.6; }
+.pkv-f-input:focus { border-bottom-color: var(--pkv-green, #00CA85); }
+
+.pkv-f-textarea {
+  resize: vertical; min-height: 100px; max-height: 240px;
+  border: 2px solid var(--pkv-gray-dark, #4C4C4C);
+  border-radius: 12px; padding: 16px;
+  background: var(--pkv-surface-3, #2A2A2A);
+  font-size: 18px;
+}
+.pkv-f-textarea:focus {
+  border-color: var(--pkv-green, #00CA85);
+  box-shadow: 0 0 0 3px rgba(0,202,133,0.15);
+}
+
+/* ---- Inline field grids (contact-info etc.) ----------------- */
+.pkv-f-field-grid {
+  display: grid; gap: 20px;
+}
+.pkv-f-field-grid-2 { grid-template-columns: 1fr 1fr; }
+.pkv-f-field-label {
+  display: block; font-size: 13px; font-weight: 600;
+  color: var(--fg-muted, #989898);
+  margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+/* ---- Choice cards ------------------------------------------ */
+.pkv-f-choices { display: flex; flex-direction: column; gap: 12px; }
+
+.pkv-f-choice {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px;
+  background: var(--pkv-surface-2, #292929);
+  border: 1px solid var(--pkv-border-dark, #777778);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  user-select: none;
+}
+.pkv-f-choice:hover {
+  border-color: var(--pkv-green, #00CA85);
+  transform: translateY(-1px);
+}
+.pkv-f-choice.selected {
+  border-color: var(--pkv-green, #00CA85);
+  background: rgba(0,202,133,0.10);
+}
+
+.pkv-f-choice-key {
+  flex: none; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--pkv-border-dark, #777778);
+  border-radius: 6px;
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 13px;
+  color: var(--fg-muted, #989898);
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.pkv-f-choice.selected .pkv-f-choice-key,
+.pkv-f-choice:hover .pkv-f-choice-key {
+  border-color: var(--pkv-green, #00CA85);
+  color: var(--pkv-green, #00CA85);
+}
+.pkv-f-choice.selected .pkv-f-choice-key {
+  background: var(--pkv-green, #00CA85);
+  color: var(--pkv-black, #1E1E1E);
+}
+
+.pkv-f-choice-text {
+  flex: 1;
+  font-family: var(--font-display, "Onest", sans-serif);
+  font-size: 17px; line-height: 1.4;
+  color: var(--fg, #fff);
+}
+
+.pkv-f-choice-check {
+  flex: none; width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.15s ease;
+}
+.pkv-f-choice.selected .pkv-f-choice-check { opacity: 1; }
+
+/* ---- Yes / No ---------------------------------------------- */
+.pkv-f-yesno { display: flex; gap: 14px; }
+.pkv-f-yesno .pkv-f-choice { flex: 1; justify-content: center; padding: 20px; }
+
+/* ---- Dropdown ---------------------------------------------- */
+.pkv-f-select {
+  width: 100%; box-sizing: border-box;
+  background: var(--pkv-surface-3, #2A2A2A);
+  border: 2px solid var(--pkv-gray-dark, #4C4C4C);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--fg, #fff);
+  font-family: var(--font-display, "Onest", sans-serif);
+  font-size: 18px;
+  outline: none; cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23A0A0A0'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+.pkv-f-select:focus {
+  border-color: var(--pkv-green, #00CA85);
+  box-shadow: 0 0 0 3px rgba(0,202,133,0.15);
+}
+.pkv-f-select option { background: #292929; color: #fff; }
+
+/* ---- Rating scales ----------------------------------------- */
+.pkv-f-nps {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.pkv-f-nps-btn {
+  width: 52px; height: 52px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--pkv-border-dark, #777778);
+  border-radius: 10px;
+  font-family: var(--font-data, "Inter", sans-serif);
+  font-weight: 600; font-size: 18px;
+  color: var(--fg-muted, #989898);
+  background: var(--pkv-surface-2, #292929);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.pkv-f-nps-btn:hover { border-color: var(--pkv-green, #00CA85); color: #fff; }
+.pkv-f-nps-btn.selected {
+  background: var(--pkv-green, #00CA85);
+  color: var(--pkv-black, #1E1E1E);
+  border-color: var(--pkv-green, #00CA85);
+}
+.pkv-f-scale-labels {
+  display: flex; justify-content: space-between;
+  font-size: 13px; color: var(--fg-subtle, #A0A0A0);
+  margin-top: 8px;
+}
+
+/* Stars */
+.pkv-f-stars { display: flex; gap: 8px; }
+.pkv-f-star {
+  width: 44px; height: 44px; cursor: pointer;
+  color: var(--pkv-gray-dark, #4C4C4C);
+  transition: color 0.12s ease, transform 0.12s ease;
+}
+.pkv-f-star:hover { transform: scale(1.15); }
+.pkv-f-star.active { color: var(--pkv-yellow, #F5CB3A); }
+
+/* ---- Matrix ------------------------------------------------ */
+.pkv-f-matrix { width: 100%; border-collapse: separate; border-spacing: 0; }
+.pkv-f-matrix th {
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 14px;
+  color: var(--fg-muted, #989898);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 12px 16px; text-align: center;
+}
+.pkv-f-matrix th:first-child { text-align: left; }
+.pkv-f-matrix td {
+  padding: 14px 16px;
+  border-top: 1px solid var(--pkv-surface-2, #292929);
+  font-size: 16px; color: var(--fg, #fff);
+}
+.pkv-f-matrix td:not(:first-child) { text-align: center; }
+.pkv-f-matrix-radio {
+  width: 22px; height: 22px;
+  border: 2px solid var(--pkv-border-dark, #777778);
+  border-radius: 50%;
+  cursor: pointer; display: inline-block; position: relative;
+  transition: border-color 0.15s ease;
+}
+.pkv-f-matrix-radio:hover { border-color: var(--pkv-green, #00CA85); }
+.pkv-f-matrix-radio.selected {
+  border-color: var(--pkv-green, #00CA85);
+}
+.pkv-f-matrix-radio.selected::after {
+  content: ''; position: absolute;
+  inset: 3px; border-radius: 50%;
+  background: var(--pkv-green, #00CA85);
+}
+
+/* ---- File upload ------------------------------------------- */
+.pkv-f-upload-zone {
+  border: 2px dashed var(--pkv-gray-dark, #4C4C4C);
+  border-radius: 16px;
+  padding: 40px 24px; text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.pkv-f-upload-zone:hover,
+.pkv-f-upload-zone.dragover {
+  border-color: var(--pkv-green, #00CA85);
+  background: rgba(0,202,133,0.05);
+}
+.pkv-f-upload-icon { font-size: 36px; margin-bottom: 12px; color: var(--fg-subtle, #A0A0A0); }
+.pkv-f-upload-text { font-size: 16px; color: var(--fg-muted, #989898); }
+.pkv-f-upload-file {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--pkv-surface-2, #292929);
+  border: 1px solid var(--pkv-border-dark, #777778);
+  border-radius: 12px; padding: 14px 16px; margin-top: 12px;
+}
+
+/* ---- Legal / Checkbox -------------------------------------- */
+.pkv-f-legal {
+  display: flex; align-items: flex-start; gap: 14px;
+  cursor: pointer; padding: 16px 0;
+}
+.pkv-f-checkbox-box {
+  flex: none; width: 24px; height: 24px;
+  border: 2px solid var(--pkv-border-dark, #777778);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s ease;
+  margin-top: 2px;
+}
+.pkv-f-checkbox-box.checked {
+  background: var(--pkv-green, #00CA85);
+  border-color: var(--pkv-green, #00CA85);
+}
+.pkv-f-legal-text {
+  font-size: 16px; line-height: 1.5;
+  color: var(--fg, #fff);
+}
+
+/* ---- Navigation -------------------------------------------- */
+.pkv-f-nav {
+  flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px 24px;
+  position: relative; z-index: 10;
+}
+.pkv-f-nav-right {
+  display: flex; align-items: center; gap: 14px;
+}
+.pkv-f-ok-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px;
+  background: var(--pkv-green, #00CA85);
+  color: var(--pkv-black, #1E1E1E);
+  border: none; border-radius: 8px;
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 16px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.pkv-f-ok-btn:hover { background: var(--pkv-mint, #99EACE); }
+.pkv-f-ok-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.pkv-f-ok-btn svg { width: 16px; height: 16px; }
+
+.pkv-f-hint {
+  font-size: 13px; color: var(--fg-subtle, #A0A0A0);
+  font-family: var(--font-data, "Inter", sans-serif);
+}
+.pkv-f-hint kbd {
+  display: inline-block; padding: 2px 7px;
+  background: var(--pkv-surface-2, #292929);
+  border: 1px solid var(--pkv-border-dark, #777778);
+  border-radius: 4px; font-size: 12px;
+  font-family: var(--font-data, "Inter", sans-serif);
+}
+
+.pkv-f-back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--fg-subtle, #A0A0A0);
+  border: 1px solid var(--pkv-gray-dark, #4C4C4C);
+  border-radius: 8px;
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 600; font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.pkv-f-back-btn:hover {
+  color: var(--fg, #fff);
+  border-color: var(--fg-muted, #989898);
+}
+.pkv-f-back-btn svg { width: 16px; height: 16px; }
+
+/* ---- Welcome screen ---------------------------------------- */
+.pkv-f-welcome {
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+}
+.pkv-f-welcome-title {
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 36px; line-height: 1.15;
+  color: var(--fg, #fff);
+  margin: 0 0 16px; max-width: 640px;
+}
+.pkv-f-welcome-sub {
+  font-family: var(--font-display, "Onest", sans-serif);
+  font-size: 18px; line-height: 1.5;
+  color: var(--fg-muted, #989898);
+  margin: 0 0 36px; max-width: 520px;
+}
+.pkv-f-welcome-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 36px;
+  background: var(--pkv-green, #00CA85);
+  color: var(--pkv-black, #1E1E1E);
+  border: none; border-radius: 8px;
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 18px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.pkv-f-welcome-btn:hover { background: var(--pkv-mint, #99EACE); transform: translateY(-1px); }
+
+/* ---- End screen -------------------------------------------- */
+.pkv-f-end {
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+}
+.pkv-f-end-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(0,202,133,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 28px;
+}
+.pkv-f-end-icon svg { width: 36px; height: 36px; color: var(--pkv-green, #00CA85); }
+.pkv-f-end-title {
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 34px; line-height: 1.15;
+  color: var(--fg, #fff);
+  margin: 0 0 14px;
+}
+.pkv-f-end-sub {
+  font-family: var(--font-display, "Onest", sans-serif);
+  font-size: 18px; line-height: 1.5;
+  color: var(--fg-muted, #989898);
+  max-width: 500px;
+}
+
+/* ---- Group intro ------------------------------------------- */
+.pkv-f-group-intro { text-align: center; }
+.pkv-f-group-num {
+  font-family: var(--font-display, "Onest", sans-serif);
+  font-weight: 700; font-size: 72px;
+  color: var(--pkv-green, #00CA85);
+  line-height: 1; margin-bottom: 16px;
+}
+.pkv-f-group-title {
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 28px; line-height: 1.25;
+  color: var(--fg, #fff);
+  max-width: 600px; margin: 0 auto;
+}
+
+/* ---- Statement --------------------------------------------- */
+.pkv-f-statement { text-align: center; }
+.pkv-f-statement-title {
+  font-family: var(--font-heading, "Open Sans", sans-serif);
+  font-weight: 700; font-size: 28px; line-height: 1.25;
+  color: var(--fg, #fff);
+  margin: 0 0 28px;
+}
+
+/* ---- Error ------------------------------------------------- */
+.pkv-f-error {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--pkv-red, #E83F4D);
+  font-size: 14px; font-weight: 600;
+  margin-top: 12px;
+}
+.pkv-f-error svg { flex: none; width: 16px; height: 16px; }
+
+/* ---- Green blob decoration --------------------------------- */
+.pkv-f-blob {
+  position: fixed; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 40% 40%, rgba(0,202,133,0.18), rgba(0,202,133,0) 62%);
+  z-index: 0;
+}
+
+/* ---- Responsive -------------------------------------------- */
+@media (max-width: 640px) {
+  .pkv-f-header { padding: 16px 20px 0; }
+  .pkv-f-progress { margin: 12px 20px 0; }
+  .pkv-f-slide { padding: 24px 20px; }
+  .pkv-f-q-title { font-size: 22px; }
+  .pkv-f-q-subtitle { font-size: 15px; }
+  .pkv-f-input { font-size: 18px; }
+  .pkv-f-nav { padding: 12px 20px 20px; }
+  .pkv-f-welcome-title { font-size: 28px; }
+  .pkv-f-welcome-sub { font-size: 16px; }
+  .pkv-f-yesno { flex-direction: column; }
+  .pkv-f-field-grid-2 { grid-template-columns: 1fr; }
+  .pkv-f-nps-btn { width: 44px; height: 44px; font-size: 15px; }
+  .pkv-f-group-num { font-size: 56px; }
+  .pkv-f-hint { display: none; }
+}
