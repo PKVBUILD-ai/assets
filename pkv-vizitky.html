@@ -6,7 +6,7 @@
   <title>PKV Vizitky — Generátor</title>
   <link rel="stylesheet" href="colors_and_type.css">
   <!-- qrcode (npm build) — plná UTF-8 podpora vrátane diakritiky -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
@@ -154,10 +154,10 @@
       font-family: "Open Sans", sans-serif; font-weight: 400;
       font-size: 18px; color: #c0c0c0; line-height: 1.3; margin-bottom: 22px;
     }
-    .vz-card-contact { display: flex; flex-direction: column; gap: 7px; }
+    .vz-card-contact { display: flex; flex-direction: column; gap: 8px; }
     .vz-card-contact-line {
       font-family: "Open Sans", sans-serif; font-weight: 400;
-      font-size: 18px; color: #00CA85; line-height: 1.3;
+      font-size: 21px; color: #00CA85; line-height: 1.25;
     }
 
     /* ── Logo slot ──────────────────────────────────────────── */
@@ -192,7 +192,7 @@
       .vz-qr-logo svg, .vz-qr-logo img { width: 14px; height: 14px; }
       .vz-card-name          { font-size: 15px; margin-bottom: 3px; }
       .vz-card-position      { font-size: 10px; margin-bottom: 12px; }
-      .vz-card-contact-line  { font-size: 10px; }
+      .vz-card-contact-line  { font-size: 11px; }
     }
   </style>
 </head>
@@ -417,24 +417,30 @@
     ].filter(Boolean).join('\n');
   }
 
-  function regenerateQR() {
+  async function regenerateQR() {
     const container   = document.getElementById('qr-container');
     const logoOverlay = document.getElementById('qr-logo-overlay');
 
-    // Remove old QR canvas, keep logo overlay
+    // Remove old QR img/canvas, keep logo overlay
     Array.from(container.children).forEach(child => {
       if (child !== logoOverlay) child.remove();
     });
 
-    const canvas = document.createElement('canvas');
-    container.insertBefore(canvas, logoOverlay);
-
-    QRCode.toCanvas(canvas, buildVCard(), {
-      width: 140,
-      margin: 1,
-      color: { dark: '#ffffff', light: '#1a1a1a' },
-      errorCorrectionLevel: 'H',
-    }).catch(err => console.warn('QR zlyhalo:', err));
+    try {
+      // toDataURL is the most reliable cross-browser approach
+      const dataUrl = await QRCode.toDataURL(buildVCard(), {
+        width: 140,
+        margin: 1,
+        color: { dark: '#ffffff', light: '#1a1a1a' },
+        errorCorrectionLevel: 'H',
+      });
+      const img = document.createElement('img');
+      img.src = dataUrl;
+      img.style.cssText = 'width:140px;height:140px;display:block;border-radius:4px';
+      container.insertBefore(img, logoOverlay);
+    } catch (err) {
+      console.warn('QR zlyhalo:', err);
+    }
   }
 
   regenerateQR();
@@ -492,7 +498,7 @@
         drawCropMarks(doc, margin, margin, trimW, trimH, markLen, markGap);
 
         // Sútisky (registration/passermarks) — krúžky s krížikmi
-        drawRegistrationMarks(doc, pageW, pageH, margin);
+        drawRegistrationMarks(doc, pageW, pageH);
       }
 
       doc.save(filename);
@@ -521,22 +527,24 @@
     doc.line(x1, y1 + gap, x1, y1 + gap + markLen);
   }
 
-  /* Sútisky / passermarky — krúžok + krížik, stred každej hrany */
-  function drawRegistrationMarks(doc, pageW, pageH, margin) {
+  /* Sútisky / passermarky — malý krúžok + krížik, stred každej hrany.
+     Centrovanie na 3.5 mm od okraja stránky, r=1.2 mm → max dosah 4.7 mm,
+     bezpečne mimo blead (začína na margin-bleed = 7 mm).             */
+  function drawRegistrationMarks(doc, pageW, pageH) {
     doc.setDrawColor(0, 0, 0);
-    doc.setLineWidth(0.2);
+    doc.setLineWidth(0.15);
 
-    const r   = 2.5;     // polomer kruhu v mm
-    const arm = r * 1.9; // dĺžka ramien krížika
+    const r      = 1.2;   // polomer kruhu mm
+    const arm    = 2.8;   // dĺžka ramena krížika mm
+    const offset = 3.5;   // vzdialenosť stredu od okraja stránky mm
 
-    // Stred každej hrany, umiestnený v strede okrajového priestoru
     const cx = pageW / 2;
     const cy = pageH / 2;
     const positions = [
-      { x: cx,            y: margin / 2           },  // hore
-      { x: cx,            y: pageH - margin / 2   },  // dole
-      { x: margin / 2,    y: cy                   },  // vľavo
-      { x: pageW - margin / 2, y: cy              },  // vpravo
+      { x: cx,              y: offset             },  // hore
+      { x: cx,              y: pageH - offset     },  // dole
+      { x: offset,          y: cy                 },  // vľavo
+      { x: pageW - offset,  y: cy                 },  // vpravo
     ];
 
     positions.forEach(({ x, y }) => {
