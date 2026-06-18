@@ -13,8 +13,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: var(--pkv-black);
-      color: var(--pkv-white);
+      background: #080808;
+      color: #fff;
       font-family: "Open Sans", sans-serif;
       min-height: 100vh;
       display: flex; flex-direction: column;
@@ -22,97 +22,109 @@
 
     /* ── Header ─────────────────────────────────────────────── */
     .vz-header {
-      display: flex; align-items: center; gap: 16px;
-      padding: 22px 40px;
-      border-bottom: 1px solid #2a2a2a; flex: none;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 60px; flex: none;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .vz-header-title { font-size: 18px; font-weight: 700; color: #fff; }
-    .vz-header-sub   { font-size: 13px; color: var(--pkv-gray); margin-top: 2px; }
+    .vz-header-left  { display: flex; align-items: center; gap: 14px; }
+    .vz-header-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); letter-spacing: 0.01em; }
+    .vz-header-badge {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--pkv-green);
+      background: rgba(0,202,133,0.1); border: 1px solid rgba(0,202,133,0.2);
+      padding: 3px 8px; border-radius: 4px;
+    }
 
     /* ── Layout ─────────────────────────────────────────────── */
     .vz-layout {
-      display: grid; grid-template-columns: 380px 1fr;
+      display: grid; grid-template-columns: 320px 1fr;
       flex: 1; min-height: 0;
     }
 
     /* ── Form panel ─────────────────────────────────────────── */
     .vz-form-panel {
-      border-right: 1px solid #2a2a2a;
-      padding: 36px 32px; overflow-y: auto;
-      display: flex; flex-direction: column; gap: 0;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 28px; overflow-y: auto;
+      display: flex; flex-direction: column;
     }
-    .vz-section-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; color: #555; margin-bottom: 18px;
-    }
-    .vz-field-group { display: flex; flex-direction: column; margin-bottom: 16px; }
+
+    .vz-form-top { flex: 1; }
+
+    .vz-field-group { display: flex; flex-direction: column; margin-bottom: 14px; }
     .vz-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--pkv-gray);
-      margin-bottom: 7px; display: block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      margin-bottom: 6px; display: block;
     }
     .vz-input, .vz-select {
-      width: 100%; background: #222;
-      border: 1.5px solid #383838; border-radius: 8px;
-      padding: 11px 14px; color: #fff;
-      font-family: "Open Sans", sans-serif; font-size: 15px;
-      outline: none; transition: border-color 0.18s ease; appearance: none;
+      width: 100%; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+      padding: 10px 13px; color: #fff;
+      font-family: "Open Sans", sans-serif; font-size: 14px;
+      outline: none; transition: border-color 0.15s, background 0.15s; appearance: none;
     }
-    .vz-input:focus, .vz-select:focus { border-color: var(--pkv-green); }
-    .vz-input::placeholder { color: #555; }
+    .vz-input:hover  { border-color: rgba(255,255,255,0.18); }
+    .vz-input:focus, .vz-select:focus {
+      border-color: var(--pkv-green);
+      background: rgba(0,202,133,0.04);
+    }
+    .vz-input::placeholder { color: rgba(255,255,255,0.2); }
     .vz-select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23666' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 11px center; cursor: pointer;
     }
-    .vz-select option { background: #222; color: #fff; }
-    .vz-divider { height: 1px; background: #2a2a2a; margin: 16px 0 24px; }
+    .vz-select option { background: #181818; color: #fff; }
+
+    .vz-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 20px 0; }
 
     /* ── Actions ────────────────────────────────────────────── */
-    .vz-actions {
-      display: flex; flex-direction: column; gap: 10px;
-      margin-top: auto; padding-top: 24px;
-    }
+    .vz-actions { padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
     .vz-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 13px 20px; border-radius: 8px; border: none;
-      font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 15px;
-      cursor: pointer; transition: all 0.15s ease; width: 100%;
+      padding: 12px 20px; border-radius: 8px; border: none;
+      font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 14px;
+      cursor: pointer; transition: all 0.15s; width: 100%; letter-spacing: 0.01em;
     }
-    .vz-btn-primary { background: var(--pkv-green); color: #1E1E1E; }
-    .vz-btn-primary:hover { background: var(--pkv-mint); }
-    .vz-btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
-    .vz-export-info { font-size: 12px; color: #555; text-align: center; line-height: 1.6; }
-    .vz-export-info strong { color: var(--pkv-gray); }
+    .vz-btn-primary {
+      background: var(--pkv-green); color: #111;
+      box-shadow: 0 0 0 0 rgba(0,202,133,0);
+    }
+    .vz-btn-primary:hover {
+      background: #00e096;
+      box-shadow: 0 4px 20px rgba(0,202,133,0.3);
+    }
+    .vz-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+    .vz-export-info {
+      font-size: 11px; color: rgba(255,255,255,0.22);
+      text-align: center; line-height: 1.7; letter-spacing: 0.01em;
+    }
 
     /* ── Preview panel ──────────────────────────────────────── */
     .vz-preview-panel {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 48px 40px; gap: 40px; overflow: auto;
+      padding: 48px 40px; gap: 48px; overflow: auto;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,202,133,0.03) 0%, transparent 70%);
     }
     .vz-preview-row {
-      display: flex; gap: 48px; align-items: flex-start;
+      display: flex; gap: 40px; align-items: flex-start;
       flex-wrap: wrap; justify-content: center;
     }
     .vz-preview-card-wrap {
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
     }
     .vz-preview-card-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; color: #555;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.2);
     }
 
     /* ── Card — 90×50 mm, displayed at 1.8× = 612×340 px ───── */
     .vz-card {
       width: 612px; height: 340px;
-      border-radius: 14px; overflow: hidden;
+      border-radius: 16px; overflow: hidden;
       position: relative; flex: none;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
     }
-
-    /*  Zelená  → ľavý horný roh  (0%   0%)
-        Fialová → dolný pravý roh (100% 100%)
-        Obe strany identický gradient                          */
     .vz-card-back,
     .vz-card-front {
       background:
@@ -166,26 +178,27 @@
 
     /* ── Loading ────────────────────────────────────────────── */
     .vz-loading {
-      position: fixed; inset: 0; background: rgba(14,14,14,0.88);
+      position: fixed; inset: 0; background: rgba(8,8,8,0.92);
       display: none; align-items: center; justify-content: center;
       flex-direction: column; gap: 16px; z-index: 9999;
+      backdrop-filter: blur(4px);
     }
     .vz-loading.active { display: flex; }
-    .vz-loading-text { font-size: 15px; color: var(--pkv-gray); font-weight: 600; }
+    .vz-loading-text { font-size: 13px; color: rgba(255,255,255,0.4); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
     .vz-spinner {
-      width: 40px; height: 40px;
-      border: 3px solid #333; border-top-color: var(--pkv-green);
-      border-radius: 50%; animation: vz-spin 0.8s linear infinite;
+      width: 36px; height: 36px;
+      border: 2px solid rgba(255,255,255,0.08); border-top-color: var(--pkv-green);
+      border-radius: 50%; animation: vz-spin 0.75s linear infinite;
     }
     @keyframes vz-spin { to { transform: rotate(360deg); } }
 
     @media (max-width: 1100px) {
       .vz-layout { grid-template-columns: 1fr; }
-      .vz-form-panel { border-right: none; border-bottom: 1px solid #2a2a2a; }
+      .vz-form-panel { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
     }
     @media (max-width: 700px) {
-      .vz-header { padding: 16px 20px; }
-      .vz-card   { width: 340px; height: 189px; border-radius: 8px; }
+      .vz-header { padding: 0 20px; }
+      .vz-card   { width: 340px; height: 189px; border-radius: 10px; }
       .vz-card-front { padding: 0 24px; gap: 20px; }
       .vz-card-qr-wrap { width: 90px; height: 90px; border-radius: 12px; }
       .vz-qr-logo { width: 18px; height: 18px; }
@@ -200,25 +213,23 @@
 
 <!-- Header -->
 <header class="vz-header">
-  <div class="vz-logo-slot" id="logo-header" style="width:52px;flex:none;display:flex;align-items:center">
-    <svg viewBox="0 0 56 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:auto">
-      <path d="M8.4 2.8C3.7 2.8 1.9 6.6 3.7 10.3L20.6 30c1.8 3.7 6.5 3.7 8.3 0L54.3 6.6C56.1 2.9 53.2-.7 49.5 1L29 12.2c-1.8.9-4.2.9-6 0Z" fill="#00CA85"/>
-      <text x="15.5" y="21.5" font-family="Open Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1E1E1E" letter-spacing="-0.3">pkv</text>
-    </svg>
-  </div>
-  <div>
+  <div class="vz-header-left">
+    <div class="vz-logo-slot" id="logo-header" style="width:44px;flex:none;display:flex;align-items:center">
+      <svg viewBox="0 0 56 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:44px;height:auto">
+        <path d="M8.4 2.8C3.7 2.8 1.9 6.6 3.7 10.3L20.6 30c1.8 3.7 6.5 3.7 8.3 0L54.3 6.6C56.1 2.9 53.2-.7 49.5 1L29 12.2c-1.8.9-4.2.9-6 0Z" fill="#00CA85"/>
+        <text x="15.5" y="21.5" font-family="Open Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1E1E1E" letter-spacing="-0.3">pkv</text>
+      </svg>
+    </div>
     <div class="vz-header-title">Generátor vizitiek</div>
-    <div class="vz-header-sub">Vyplňte údaje → živý náhľad → export tlačových PDF</div>
   </div>
+  <div class="vz-header-badge">PKV BUILD</div>
 </header>
 
 <div class="vz-layout">
 
   <!-- Form -->
   <aside class="vz-form-panel">
-    <div>
-      <div class="vz-section-label">Osobní údaje</div>
-
+    <div class="vz-form-top">
       <div class="vz-field-group">
         <label class="vz-label" for="f-titul">Titul</label>
         <select class="vz-select" id="f-titul">
@@ -253,12 +264,8 @@
         <label class="vz-label" for="f-pozicia">Pozice</label>
         <input class="vz-input" id="f-pozicia" type="text" placeholder="Obchodní ředitel" autocomplete="off">
       </div>
-    </div>
 
-    <div class="vz-divider"></div>
-
-    <div>
-      <div class="vz-section-label">Kontakt</div>
+      <div class="vz-divider"></div>
 
       <div class="vz-field-group">
         <label class="vz-label" for="f-telefon">Telefon</label>
@@ -273,14 +280,12 @@
 
     <div class="vz-actions">
       <button class="vz-btn vz-btn-primary" id="btn-export" onclick="exportPDF()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/>
         </svg>
-        Exportovat tiskové PDF
+        Exportovat PDF
       </button>
-      <div class="vz-export-info">
-        <strong>90 × 50 mm</strong> · bleed <strong>3 mm</strong> · ořezové + sútisky · <strong>2 strany</strong>
-      </div>
+      <div class="vz-export-info">90 × 50 mm · bleed 3 mm · ořezové + sútisky · 2 strany</div>
     </div>
   </aside>
 
