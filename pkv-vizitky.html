@@ -13,8 +13,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: #080808;
-      color: #fff;
+      background: #1a1c1b;
+      color: #e8e8e8;
       font-family: "Open Sans", sans-serif;
       min-height: 100vh;
       display: flex; flex-direction: column;
@@ -24,14 +24,15 @@
     .vz-header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 40px; height: 60px; flex: none;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: #222523;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .vz-header-left  { display: flex; align-items: center; gap: 14px; }
-    .vz-header-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); letter-spacing: 0.01em; }
+    .vz-header-title { font-size: 14px; font-weight: 600; color: #f0f0f0; letter-spacing: 0.01em; }
     .vz-header-badge {
       font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
       text-transform: uppercase; color: var(--pkv-green);
-      background: rgba(0,202,133,0.1); border: 1px solid rgba(0,202,133,0.2);
+      background: rgba(0,202,133,0.12); border: 1px solid rgba(0,202,133,0.25);
       padding: 3px 8px; border-radius: 4px;
     }
 
@@ -43,7 +44,8 @@
 
     /* ── Form panel ─────────────────────────────────────────── */
     .vz-form-panel {
-      border-right: 1px solid rgba(255,255,255,0.06);
+      background: #222523;
+      border-right: 1px solid rgba(255,255,255,0.08);
       padding: 32px 28px; overflow-y: auto;
       display: flex; flex-direction: column;
     }
@@ -53,29 +55,30 @@
     .vz-field-group { display: flex; flex-direction: column; margin-bottom: 14px; }
     .vz-label {
       font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
-      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
       margin-bottom: 6px; display: block;
     }
     .vz-input, .vz-select {
-      width: 100%; background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
-      padding: 10px 13px; color: #fff;
+      width: 100%; background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.13); border-radius: 8px;
+      padding: 10px 13px; color: #f0f0f0;
       font-family: "Open Sans", sans-serif; font-size: 14px;
       outline: none; transition: border-color 0.15s, background 0.15s; appearance: none;
     }
-    .vz-input:hover  { border-color: rgba(255,255,255,0.18); }
+    .vz-input:hover, .vz-select:hover { border-color: rgba(255,255,255,0.22); }
     .vz-input:focus, .vz-select:focus {
       border-color: var(--pkv-green);
-      background: rgba(0,202,133,0.04);
+      background: rgba(0,202,133,0.06);
     }
-    .vz-input::placeholder { color: rgba(255,255,255,0.2); }
+    .vz-input::placeholder { color: rgba(255,255,255,0.25); }
     .vz-select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23666' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23888' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 11px center; cursor: pointer;
+      padding-right: 32px;
     }
-    .vz-select option { background: #181818; color: #fff; }
+    .vz-select option { background: #2a2d2b; color: #f0f0f0; }
 
-    .vz-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 20px 0; }
+    .vz-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 20px 0; }
 
     /* ── Actions ────────────────────────────────────────────── */
     .vz-actions { padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
@@ -95,7 +98,7 @@
     }
     .vz-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
     .vz-export-info {
-      font-size: 11px; color: rgba(255,255,255,0.22);
+      font-size: 11px; color: rgba(255,255,255,0.3);
       text-align: center; line-height: 1.7; letter-spacing: 0.01em;
     }
 
@@ -104,7 +107,7 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 48px 40px; gap: 48px; overflow: auto;
-      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,202,133,0.03) 0%, transparent 70%);
+      background: #1a1c1b;
     }
     .vz-preview-row {
       display: flex; gap: 40px; align-items: flex-start;
@@ -115,7 +118,7 @@
     }
     .vz-preview-card-label {
       font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: rgba(255,255,255,0.2);
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
     }
 
     /* ── Card — 90×50 mm, displayed at 1.8× = 612×340 px ───── */
@@ -178,7 +181,7 @@
 
     /* ── Loading ────────────────────────────────────────────── */
     .vz-loading {
-      position: fixed; inset: 0; background: rgba(8,8,8,0.92);
+      position: fixed; inset: 0; background: rgba(20,22,21,0.92);
       display: none; align-items: center; justify-content: center;
       flex-direction: column; gap: 16px; z-index: 9999;
       backdrop-filter: blur(4px);
@@ -262,7 +265,106 @@
 
       <div class="vz-field-group">
         <label class="vz-label" for="f-pozicia">Pozice</label>
-        <input class="vz-input" id="f-pozicia" type="text" placeholder="Obchodní ředitel" autocomplete="off">
+        <select class="vz-select" id="f-pozicia">
+          <option value="">— vyberte pozici —</option>
+          <option>Asistent obchodu</option>
+          <option>Asistent provozu</option>
+          <option>Asistentka</option>
+          <option>Asistentka marketingu</option>
+          <option>Asistentka obchodu</option>
+          <option>Asistentka vedení společnosti</option>
+          <option>Business analytik</option>
+          <option>Content marketingový specialista</option>
+          <option>Controller</option>
+          <option>Datová analytička</option>
+          <option>Dotační specialista</option>
+          <option>Dotační specialistka</option>
+          <option>Finanční ředitel</option>
+          <option>Full-stack vývojář</option>
+          <option>Full-stack vývojář medior</option>
+          <option>Grafik</option>
+          <option>HR administrátorka</option>
+          <option>HR manažerka</option>
+          <option>HR specialistka</option>
+          <option>HR specialistka senior</option>
+          <option>Interní projektová manažerka</option>
+          <option>IT Administrátor</option>
+          <option>IT Support</option>
+          <option>Jednatel</option>
+          <option>Koordinátorka zakázek</option>
+          <option>Manažer pro klíčové zákazníky</option>
+          <option>Marketingová koordinátorka</option>
+          <option>Marketingová specialistka</option>
+          <option>Marketingová specialistka junior</option>
+          <option>Marketingový ředitel</option>
+          <option>Obchodní manažer</option>
+          <option>Obchodní manažer junior</option>
+          <option>Obchodní manažerka</option>
+          <option>Obchodní manažerka junior</option>
+          <option>Obchodní ředitel</option>
+          <option>Odborná asistentka financí</option>
+          <option>Odborný asistent provozu</option>
+          <option>Právní specialista</option>
+          <option>Produktová specialistka</option>
+          <option>Projektant FVE</option>
+          <option>Projektant FVE senior</option>
+          <option>Projektantka FVE</option>
+          <option>Projektová koordinátorka</option>
+          <option>Projektová manažerka</option>
+          <option>Projektová manažerka junior</option>
+          <option>Projektový manažer</option>
+          <option>Projektový manažer junior</option>
+          <option>Projektový manažer teamleader</option>
+          <option>Recepční</option>
+          <option>Ředitel interních projektů</option>
+          <option>Řidič, manažer vozového parku</option>
+          <option>Školitelka</option>
+          <option>Specialista HR marketingu</option>
+          <option>Specialista implementace</option>
+          <option>Specialista instalace a elektro</option>
+          <option>Specialista instalace a elektro senior</option>
+          <option>Specialista obchodního marketingu</option>
+          <option>Specialista plánování kapacit</option>
+          <option>Specialista rozvoje obchodu</option>
+          <option>Specialista servisní podpory</option>
+          <option>Specialista veřejných zakázek</option>
+          <option>Specialistka interního marketingu</option>
+          <option>Specialistka rozvoje obchodu</option>
+          <option>Strategický nákupčí</option>
+          <option>Teamleader Enmon PKV</option>
+          <option>Teamleader oddělení Obchod</option>
+          <option>Teamleader PENB</option>
+          <option>Technička</option>
+          <option>Technická specialistka</option>
+          <option>Technická specialistka medior</option>
+          <option>Technická specialistka senior</option>
+          <option>Technický ředitel</option>
+          <option>Technický specialista</option>
+          <option>Technický specialista senior</option>
+          <option>Technický specialista teamleader</option>
+          <option>Technik</option>
+          <option>Technik DPP</option>
+          <option>Technik teamleader</option>
+          <option>Účerní junior</option>
+          <option>Účetní</option>
+          <option>Vedoucí oddělení Energetické poradenství</option>
+          <option>Vedoucí oddělení Finance</option>
+          <option>Vedoucí oddělení HR</option>
+          <option>Vedoucí oddělení Implementace</option>
+          <option>Vedoucí oddělení IT</option>
+          <option>Vedoucí oddělení Místní šetření</option>
+          <option>Vedoucí oddělení Obchod</option>
+          <option>Vedoucí oddělení Podpora obchodu</option>
+          <option>Vedoucí oddělení Procesní řízení produktu</option>
+          <option>Vedoucí oddělení Projekčních a dotačních služeb</option>
+          <option>Vedoucí oddělení Provoz</option>
+          <option>Vedoucí oddělení Řízení projektů</option>
+          <option>Vedoucí oddělení Rozvoj obchodu</option>
+          <option>Vedoucí techniků a instalace</option>
+          <option>Výrobní ředitel</option>
+          <option>Vývojář</option>
+          <option>Vývojář energetických dokumentů</option>
+        </select>
       </div>
 
       <div class="vz-divider"></div>
@@ -386,7 +488,7 @@
 
   function updatePreview() {
     document.getElementById('preview-name').textContent     = getDisplayName();
-    document.getElementById('preview-position').textContent = fields.pozicia.value.trim() || 'Funkce / dlouhý název';
+    document.getElementById('preview-position').textContent = fields.pozicia.value || 'Funkce / pozice';
     document.getElementById('preview-telefon').textContent  = fields.telefon.value.trim() || '+420 123 123 123';
     document.getElementById('preview-email').textContent    = fields.email.value.trim()   || 'mail@pkv.cz';
     regenerateQR();
