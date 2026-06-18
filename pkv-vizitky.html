@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PKV Vizitky — Generátor</title>
   <link rel="stylesheet" href="colors_and_type.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- qrcode (npm build) — plná UTF-8 podpora vrátane diakritiky -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
@@ -16,38 +17,33 @@
       color: var(--pkv-white);
       font-family: "Open Sans", sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
     }
 
     /* ── Header ─────────────────────────────────────────────── */
     .vz-header {
       display: flex; align-items: center; gap: 16px;
       padding: 22px 40px;
-      border-bottom: 1px solid #2a2a2a;
-      flex: none;
+      border-bottom: 1px solid #2a2a2a; flex: none;
     }
-    .vz-header-title  { font-size: 18px; font-weight: 700; color: #fff; }
-    .vz-header-sub    { font-size: 13px; color: var(--pkv-gray); margin-top: 2px; }
+    .vz-header-title { font-size: 18px; font-weight: 700; color: #fff; }
+    .vz-header-sub   { font-size: 13px; color: var(--pkv-gray); margin-top: 2px; }
 
     /* ── Layout ─────────────────────────────────────────────── */
     .vz-layout {
-      display: grid;
-      grid-template-columns: 380px 1fr;
+      display: grid; grid-template-columns: 380px 1fr;
       flex: 1; min-height: 0;
     }
 
     /* ── Form panel ─────────────────────────────────────────── */
     .vz-form-panel {
       border-right: 1px solid #2a2a2a;
-      padding: 36px 32px;
-      overflow-y: auto;
+      padding: 36px 32px; overflow-y: auto;
       display: flex; flex-direction: column; gap: 0;
     }
     .vz-section-label {
       font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; color: #555;
-      margin-bottom: 18px;
+      text-transform: uppercase; color: #555; margin-bottom: 18px;
     }
     .vz-field-group { display: flex; flex-direction: column; margin-bottom: 16px; }
     .vz-label {
@@ -56,25 +52,17 @@
       margin-bottom: 7px; display: block;
     }
     .vz-input, .vz-select {
-      width: 100%;
-      background: #222;
-      border: 1.5px solid #383838;
-      border-radius: 8px;
-      padding: 11px 14px;
-      color: #fff;
-      font-family: "Open Sans", sans-serif;
-      font-size: 15px;
-      outline: none;
-      transition: border-color 0.18s ease;
-      appearance: none;
+      width: 100%; background: #222;
+      border: 1.5px solid #383838; border-radius: 8px;
+      padding: 11px 14px; color: #fff;
+      font-family: "Open Sans", sans-serif; font-size: 15px;
+      outline: none; transition: border-color 0.18s ease; appearance: none;
     }
     .vz-input:focus, .vz-select:focus { border-color: var(--pkv-green); }
     .vz-input::placeholder { color: #555; }
     .vz-select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      cursor: pointer;
+      background-repeat: no-repeat; background-position: right 12px center; cursor: pointer;
     }
     .vz-select option { background: #222; color: #fff; }
     .vz-divider { height: 1px; background: #2a2a2a; margin: 16px 0 24px; }
@@ -93,17 +81,14 @@
     .vz-btn-primary { background: var(--pkv-green); color: #1E1E1E; }
     .vz-btn-primary:hover { background: var(--pkv-mint); }
     .vz-btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
-    .vz-export-info {
-      font-size: 12px; color: #555; text-align: center; line-height: 1.6;
-    }
+    .vz-export-info { font-size: 12px; color: #555; text-align: center; line-height: 1.6; }
     .vz-export-info strong { color: var(--pkv-gray); }
 
     /* ── Preview panel ──────────────────────────────────────── */
     .vz-preview-panel {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 48px 40px; gap: 40px;
-      overflow: auto;
+      padding: 48px 40px; gap: 40px; overflow: auto;
     }
     .vz-preview-row {
       display: flex; gap: 48px; align-items: flex-start;
@@ -117,8 +102,7 @@
       text-transform: uppercase; color: #555;
     }
 
-    /* ── Card ───────────────────────────────────────────────── */
-    /* 90×50 mm — displayed at 1.8× = 612×340 px */
+    /* ── Card — 90×50 mm, displayed at 1.8× = 612×340 px ───── */
     .vz-card {
       width: 612px; height: 340px;
       border-radius: 14px; overflow: hidden;
@@ -126,57 +110,42 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.7);
     }
 
-    /* Gradients:
-       Zelená  → pravý horný roh (100% 0%)
-       Fialová → dolný pravý roh  (100% 100%)                */
-    .vz-card-back {
-      background:
-        radial-gradient(ellipse 90% 90% at 100% 0%,   rgba(0,202,133,0.38)   0%, transparent 65%),
-        radial-gradient(ellipse 85% 85% at 100% 100%, rgba(110,63,245,0.32)  0%, transparent 65%),
-        #0c0f0d;
-      display: flex; align-items: center; justify-content: center;
-    }
+    /*  Zelená  → ľavý horný roh  (0%   0%)
+        Fialová → dolný pravý roh (100% 100%)
+        Obe strany identický gradient                          */
+    .vz-card-back,
     .vz-card-front {
       background:
-        radial-gradient(ellipse 90% 90% at 100% 0%,   rgba(0,202,133,0.38)   0%, transparent 65%),
-        radial-gradient(ellipse 85% 85% at 100% 100%, rgba(110,63,245,0.32)  0%, transparent 65%),
+        radial-gradient(ellipse 95% 90% at 0%   0%,   rgba(0,202,133,0.40)  0%, transparent 62%),
+        radial-gradient(ellipse 90% 85% at 100% 100%, rgba(110,63,245,0.34) 0%, transparent 62%),
         #0c0f0d;
-      display: flex; align-items: center;
-      padding: 0 44px; gap: 36px;
     }
+    .vz-card-back  { display: flex; align-items: center; justify-content: center; }
+    .vz-card-front { display: flex; align-items: center; padding: 0 44px; gap: 36px; }
 
     /* ── QR wrap + logo overlay ─────────────────────────────── */
     .vz-card-qr-wrap {
-      flex: none;
-      width: 164px; height: 164px;
-      background: #1a1a1a;
-      border-radius: 22px;
+      flex: none; width: 164px; height: 164px;
+      background: #1a1a1a; border-radius: 22px;
       position: relative;
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
-    .vz-card-qr-wrap canvas,
-    .vz-card-qr-wrap img { display: block; }
+    .vz-card-qr-wrap canvas { display: block; }
 
-    /* PKV logo centered over QR */
     .vz-qr-logo {
-      position: absolute;
-      top: 50%; left: 50%;
+      position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 32px; height: 32px;
-      background: #1a1a1a;
-      border-radius: 6px;
+      background: #1a1a1a; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      pointer-events: none;
-      z-index: 2;
+      pointer-events: none; z-index: 2;
     }
     .vz-qr-logo svg { width: 28px; height: 28px; display: block; }
     .vz-qr-logo img { width: 28px; height: 28px; display: block; object-fit: contain; }
 
     /* ── Card text ──────────────────────────────────────────── */
-    .vz-card-info {
-      flex: 1; display: flex; flex-direction: column; justify-content: center;
-    }
+    .vz-card-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
     .vz-card-name {
       font-family: "Open Sans", sans-serif; font-weight: 700;
       font-size: 27px; color: #fff; line-height: 1.18; margin-bottom: 6px;
@@ -185,20 +154,19 @@
       font-family: "Open Sans", sans-serif; font-weight: 400;
       font-size: 18px; color: #c0c0c0; line-height: 1.3; margin-bottom: 22px;
     }
-    .vz-card-contact { display: flex; flex-direction: column; gap: 6px; }
+    .vz-card-contact { display: flex; flex-direction: column; gap: 7px; }
     .vz-card-contact-line {
       font-family: "Open Sans", sans-serif; font-weight: 400;
-      font-size: 16px; color: #00CA85; line-height: 1.35;
+      font-size: 18px; color: #00CA85; line-height: 1.3;
     }
 
-    /* ── Back-side logo slot ────────────────────────────────── */
-    .vz-logo-slot svg  { width: 100%; height: auto; display: block; }
-    .vz-logo-slot img  { width: 100%; height: auto; display: block; }
+    /* ── Logo slot ──────────────────────────────────────────── */
+    .vz-logo-slot svg { width: 100%; height: auto; display: block; }
+    .vz-logo-slot img { width: 100%; height: auto; display: block; }
 
-    /* ── Loading overlay ────────────────────────────────────── */
+    /* ── Loading ────────────────────────────────────────────── */
     .vz-loading {
-      position: fixed; inset: 0;
-      background: rgba(14,14,14,0.88);
+      position: fixed; inset: 0; background: rgba(14,14,14,0.88);
       display: none; align-items: center; justify-content: center;
       flex-direction: column; gap: 16px; z-index: 9999;
     }
@@ -216,24 +184,23 @@
       .vz-form-panel { border-right: none; border-bottom: 1px solid #2a2a2a; }
     }
     @media (max-width: 700px) {
-      .vz-header  { padding: 16px 20px; }
-      .vz-card    { width: 340px; height: 189px; border-radius: 8px; }
+      .vz-header { padding: 16px 20px; }
+      .vz-card   { width: 340px; height: 189px; border-radius: 8px; }
       .vz-card-front { padding: 0 24px; gap: 20px; }
       .vz-card-qr-wrap { width: 90px; height: 90px; border-radius: 12px; }
       .vz-qr-logo { width: 18px; height: 18px; }
       .vz-qr-logo svg, .vz-qr-logo img { width: 14px; height: 14px; }
-      .vz-card-name     { font-size: 15px; margin-bottom: 3px; }
-      .vz-card-position { font-size: 10px; margin-bottom: 12px; }
-      .vz-card-contact-line { font-size: 8.5px; }
+      .vz-card-name          { font-size: 15px; margin-bottom: 3px; }
+      .vz-card-position      { font-size: 10px; margin-bottom: 12px; }
+      .vz-card-contact-line  { font-size: 10px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── Header ────────────────────────────────────────────────── -->
+<!-- Header -->
 <header class="vz-header">
   <div class="vz-logo-slot" id="logo-header" style="width:52px;flex:none;display:flex;align-items:center">
-    <!-- fallback built-in logo -->
     <svg viewBox="0 0 56 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:auto">
       <path d="M8.4 2.8C3.7 2.8 1.9 6.6 3.7 10.3L20.6 30c1.8 3.7 6.5 3.7 8.3 0L54.3 6.6C56.1 2.9 53.2-.7 49.5 1L29 12.2c-1.8.9-4.2.9-6 0Z" fill="#00CA85"/>
       <text x="15.5" y="21.5" font-family="Open Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1E1E1E" letter-spacing="-0.3">pkv</text>
@@ -245,10 +212,9 @@
   </div>
 </header>
 
-<!-- ── Layout ────────────────────────────────────────────────── -->
 <div class="vz-layout">
 
-  <!-- Form panel -->
+  <!-- Form -->
   <aside class="vz-form-panel">
     <div>
       <div class="vz-section-label">Osobní údaje</div>
@@ -313,29 +279,26 @@
         Exportovat tiskové PDF
       </button>
       <div class="vz-export-info">
-        <strong>90 × 50 mm</strong> · bleed <strong>3 mm</strong> · ořezové značky · <strong>2 strany</strong>
+        <strong>90 × 50 mm</strong> · bleed <strong>3 mm</strong> · ořezové + sútisky · <strong>2 strany</strong>
       </div>
     </div>
   </aside>
 
-  <!-- Preview panel -->
+  <!-- Preview -->
   <main class="vz-preview-panel">
     <div class="vz-preview-row">
 
       <div class="vz-preview-card-wrap">
         <div class="vz-preview-card-label">Přední strana</div>
         <div class="vz-card vz-card-front" id="card-front">
-          <!-- QR + logo overlay -->
           <div class="vz-card-qr-wrap" id="qr-container">
             <div class="vz-qr-logo" id="qr-logo-overlay">
-              <!-- filled by loadLogo() or fallback -->
               <svg viewBox="0 0 56 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8.4 2.8C3.7 2.8 1.9 6.6 3.7 10.3L20.6 30c1.8 3.7 6.5 3.7 8.3 0L54.3 6.6C56.1 2.9 53.2-.7 49.5 1L29 12.2c-1.8.9-4.2.9-6 0Z" fill="#00CA85"/>
                 <text x="15.5" y="21.5" font-family="Open Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1E1E1E" letter-spacing="-0.3">pkv</text>
               </svg>
             </div>
           </div>
-          <!-- Text info -->
           <div class="vz-card-info">
             <div class="vz-card-name"     id="preview-name">Jméno Příjmení</div>
             <div class="vz-card-position" id="preview-position">Funkce / dlouhý název</div>
@@ -363,7 +326,6 @@
   </main>
 </div>
 
-<!-- Loading overlay -->
 <div class="vz-loading" id="loading">
   <div class="vz-spinner"></div>
   <div class="vz-loading-text">Generuji PDF…</div>
@@ -371,7 +333,7 @@
 
 <script>
   /* ============================================================
-     Logo — fetch official SVG inline for crisp PDF rendering
+     Logo — fetch official SVG inline
      ============================================================ */
   const LOGO_URL = 'https://cdn.prod.website-files.com/5df27458f3b0887d3f8ad756/6398e2dbba30d8454445577b_pkv-logo-new.svg';
 
@@ -381,13 +343,10 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const svgText = await res.text();
       if (!svgText.includes('<svg')) throw new Error('Not SVG');
-
       ['logo-header', 'logo-back'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = svgText;
       });
-
-      // Also update QR logo overlay
       const qrLogoEl = document.getElementById('qr-logo-overlay');
       if (qrLogoEl) {
         qrLogoEl.innerHTML = '';
@@ -397,13 +356,13 @@
         qrLogoEl.appendChild(img);
       }
     } catch (e) {
-      console.warn('PKV logo sa nepodarilo načítať, používam záložné:', e.message);
+      console.warn('PKV logo sa nepodarilo načítať, záložné logo aktívne:', e.message);
     }
   }
   loadLogo();
 
   /* ============================================================
-     Form fields
+     Fields + preview
      ============================================================ */
   const fields = {
     titul:   document.getElementById('f-titul'),
@@ -428,11 +387,14 @@
     regenerateQR();
   }
 
-  Object.values(fields).forEach(f => f.addEventListener('input', updatePreview));
-  Object.values(fields).forEach(f => f.addEventListener('change', updatePreview));
+  Object.values(fields).forEach(f => {
+    f.addEventListener('input',  updatePreview);
+    f.addEventListener('change', updatePreview);
+  });
 
   /* ============================================================
-     QR — vCard, H error correction (30%) for logo overlay
+     QR — qrcode@1.5.3, plná UTF-8 podpora (diakritika OK)
+     Error correction H (30 %) — logo překrývá střed
      ============================================================ */
   function buildVCard() {
     const t  = fields.titul.value.trim();
@@ -447,7 +409,7 @@
       'BEGIN:VCARD', 'VERSION:3.0',
       `N:${last};${first};;;`,
       `FN:${[t, m].filter(Boolean).join(' ') || 'PKV Kontakt'}`,
-      t  ? `TITLE:${p}` : (p ? `TITLE:${p}` : ''),
+      p  ? `TITLE:${p}` : '',
       em ? `EMAIL:${em}` : '',
       ph ? `TEL:${ph}`   : '',
       'ORG:PKV BUILD s.r.o.',
@@ -456,25 +418,23 @@
   }
 
   function regenerateQR() {
-    const container = document.getElementById('qr-container');
-    // Remove old QR canvas/img but keep the logo overlay
+    const container   = document.getElementById('qr-container');
     const logoOverlay = document.getElementById('qr-logo-overlay');
-    container.innerHTML = '';
-    if (logoOverlay) container.appendChild(logoOverlay);
 
-    try {
-      new QRCode(container, {
-        text: buildVCard(),
-        width: 140, height: 140,
-        colorDark:  '#ffffff',
-        colorLight: '#1a1a1a',
-        correctLevel: QRCode.CorrectLevel.H,
-      });
-      // Move overlay on top after QRCode appends its canvas
-      if (logoOverlay) container.appendChild(logoOverlay);
-    } catch (e) {
-      console.warn('QR failed:', e);
-    }
+    // Remove old QR canvas, keep logo overlay
+    Array.from(container.children).forEach(child => {
+      if (child !== logoOverlay) child.remove();
+    });
+
+    const canvas = document.createElement('canvas');
+    container.insertBefore(canvas, logoOverlay);
+
+    QRCode.toCanvas(canvas, buildVCard(), {
+      width: 140,
+      margin: 1,
+      color: { dark: '#ffffff', light: '#1a1a1a' },
+      errorCorrectionLevel: 'H',
+    }).catch(err => console.warn('QR zlyhalo:', err));
   }
 
   regenerateQR();
@@ -491,59 +451,53 @@
     try {
       const { jsPDF } = window.jspdf;
 
-      const trimW = 90, trimH = 50; // mm
-      const bleed   = 3;
-      const markGap = 2;
-      const markLen = 5;
+      const trimW   = 90,  trimH   = 50;   // mm vizitka
+      const bleed   = 3;                    // mm spad
+      const markGap = 2;                    // mm medzera od trim k začiatku čiar
+      const markLen = 5;                    // mm dĺžka ořezovej čiary
       const margin  = bleed + markGap + markLen;
       const pageW   = trimW + 2 * margin;
       const pageH   = trimH + 2 * margin;
 
       const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [pageW, pageH] });
 
-      // PDF filename: vizitky_Jmeno_Prijmeni
-      const rawName = fields.meno.value.trim() || 'vizitka';
+      const rawName  = fields.meno.value.trim() || 'vizitka';
       const safeName = rawName
-        .normalize('NFD').replace(/[̀-ͯ]/g, '') // strip diacritics for filename
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
         .replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
       const filename = `vizitky_${safeName}.pdf`;
 
       const sides = [
-        { el: document.getElementById('card-front') },
-        { el: document.getElementById('card-back')  },
+        document.getElementById('card-front'),
+        document.getElementById('card-back'),
       ];
 
       for (let i = 0; i < sides.length; i++) {
         if (i > 0) doc.addPage([pageW, pageH], 'landscape');
 
-        const canvas = await html2canvas(sides[i].el, {
-          scale: 4,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: null,
-          logging: false,
+        const canvas = await html2canvas(sides[i], {
+          scale: 4, useCORS: true, allowTaint: true,
+          backgroundColor: null, logging: false,
         });
 
         const imgData = canvas.toDataURL('image/jpeg', 0.97);
-        const bleedX = margin - bleed;
-        const bleedY = margin - bleed;
-        const bleedW = trimW + 2 * bleed;
-        const bleedH = trimH + 2 * bleed;
 
-        doc.addImage(imgData, 'JPEG', bleedX, bleedY, bleedW, bleedH);
+        // Karta vrátane spadu
+        doc.addImage(imgData, 'JPEG',
+          margin - bleed, margin - bleed,
+          trimW + 2 * bleed, trimH + 2 * bleed
+        );
+
+        // Ořezové značky (crop marks)
         drawCropMarks(doc, margin, margin, trimW, trimH, markLen, markGap);
 
-        // Page name above the card (tiny, outside crop marks)
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(5.5);
-        doc.setTextColor(130, 130, 130);
-        const label = i === 0 ? rawName : '';
-        if (label) doc.text(label, margin, margin - markGap - markLen - 1.5, { align: 'left' });
+        // Sútisky (registration/passermarks) — krúžky s krížikmi
+        drawRegistrationMarks(doc, pageW, pageH, margin);
       }
 
       doc.save(filename);
     } catch (err) {
-      console.error('Export failed:', err);
+      console.error('Export zlyhal:', err);
       alert('Export sa nepodaril: ' + err.message);
     } finally {
       btn.disabled = false;
@@ -551,19 +505,45 @@
     }
   }
 
+  /* Ořezové značky — 4 rohy */
   function drawCropMarks(doc, trimX, trimY, trimW, trimH, markLen, gap) {
     doc.setDrawColor(0, 0, 0);
     doc.setLineWidth(0.2);
     const x0 = trimX, x1 = trimX + trimW;
     const y0 = trimY, y1 = trimY + trimH;
-    doc.line(x0 - gap - markLen, y0, x0 - gap, y0);  // TL horiz
-    doc.line(x0, y0 - gap - markLen, x0, y0 - gap);  // TL vert
-    doc.line(x1 + gap, y0, x1 + gap + markLen, y0);  // TR horiz
-    doc.line(x1, y0 - gap - markLen, x1, y0 - gap);  // TR vert
-    doc.line(x0 - gap - markLen, y1, x0 - gap, y1);  // BL horiz
-    doc.line(x0, y1 + gap, x0, y1 + gap + markLen);  // BL vert
-    doc.line(x1 + gap, y1, x1 + gap + markLen, y1);  // BR horiz
-    doc.line(x1, y1 + gap, x1, y1 + gap + markLen);  // BR vert
+    doc.line(x0 - gap - markLen, y0, x0 - gap, y0);
+    doc.line(x0, y0 - gap - markLen, x0, y0 - gap);
+    doc.line(x1 + gap, y0, x1 + gap + markLen, y0);
+    doc.line(x1, y0 - gap - markLen, x1, y0 - gap);
+    doc.line(x0 - gap - markLen, y1, x0 - gap, y1);
+    doc.line(x0, y1 + gap, x0, y1 + gap + markLen);
+    doc.line(x1 + gap, y1, x1 + gap + markLen, y1);
+    doc.line(x1, y1 + gap, x1, y1 + gap + markLen);
+  }
+
+  /* Sútisky / passermarky — krúžok + krížik, stred každej hrany */
+  function drawRegistrationMarks(doc, pageW, pageH, margin) {
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.2);
+
+    const r   = 2.5;     // polomer kruhu v mm
+    const arm = r * 1.9; // dĺžka ramien krížika
+
+    // Stred každej hrany, umiestnený v strede okrajového priestoru
+    const cx = pageW / 2;
+    const cy = pageH / 2;
+    const positions = [
+      { x: cx,            y: margin / 2           },  // hore
+      { x: cx,            y: pageH - margin / 2   },  // dole
+      { x: margin / 2,    y: cy                   },  // vľavo
+      { x: pageW - margin / 2, y: cy              },  // vpravo
+    ];
+
+    positions.forEach(({ x, y }) => {
+      doc.circle(x, y, r, 'S');
+      doc.line(x - arm, y, x + arm, y);
+      doc.line(x, y - arm, x, y + arm);
+    });
   }
 </script>
 </body>
