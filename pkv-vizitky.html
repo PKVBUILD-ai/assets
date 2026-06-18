@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PKV Vizitky — Generátor</title>
   <link rel="stylesheet" href="colors_and_type.css">
-  <!-- qrcode (npm build) — plná UTF-8 podpora vrátane diakritiky -->
-  <script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <!-- qrcodejs z cdnjs — stabilné CDN; UTF-8 fix cez unescape+encodeURIComponent -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
@@ -417,27 +417,29 @@
     ].filter(Boolean).join('\n');
   }
 
-  async function regenerateQR() {
+  function regenerateQR() {
     const container   = document.getElementById('qr-container');
     const logoOverlay = document.getElementById('qr-logo-overlay');
 
-    // Remove old QR img/canvas, keep logo overlay
+    // Odstrán starý QR, zachovaj logo overlay
     Array.from(container.children).forEach(child => {
       if (child !== logoOverlay) child.remove();
     });
 
+    // Dočasný div — qrcodejs vyžaduje prázdny element
+    const qrDiv = document.createElement('div');
+    container.insertBefore(qrDiv, logoOverlay);
+
     try {
-      // toDataURL is the most reliable cross-browser approach
-      const dataUrl = await QRCode.toDataURL(buildVCard(), {
-        width: 140,
-        margin: 1,
-        color: { dark: '#ffffff', light: '#1a1a1a' },
-        errorCorrectionLevel: 'H',
+      // unescape(encodeURIComponent(str)) = UTF-8 fix pre diakritiku v qrcodejs
+      new QRCode(qrDiv, {
+        text:         unescape(encodeURIComponent(buildVCard())),
+        width:        140,
+        height:       140,
+        colorDark:    '#ffffff',
+        colorLight:   '#1a1a1a',
+        correctLevel: QRCode.CorrectLevel.H,
       });
-      const img = document.createElement('img');
-      img.src = dataUrl;
-      img.style.cssText = 'width:140px;height:140px;display:block;border-radius:4px';
-      container.insertBefore(img, logoOverlay);
     } catch (err) {
       console.warn('QR zlyhalo:', err);
     }
