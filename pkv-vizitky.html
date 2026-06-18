@@ -510,26 +510,43 @@
       for (let i = 0; i < sides.length; i++) {
         if (i > 0) doc.addPage([pageW, pageH], 'landscape');
 
-        // Dočasne odoberieme zakulatenie — v tlakovom PDF nechceme rounded corners
         const el = sides[i];
-        const prevRadius = el.style.borderRadius;
+
+        // Bleed v pixeloch (karta 612×340 px = 90×50 mm)
+        const bleedPx = (bleed / trimW) * 612; // = 20.4 px
+
+        // Dočasne rozšírime element o bleed na každú stranu
+        // → gradient karty prirodzene zaplní bleed oblasť
         el.style.borderRadius = '0';
+        el.style.width  = `${612 + bleedPx * 2}px`;
+        el.style.height = `${340 + bleedPx * 2}px`;
+
+        // Pre prednú stranu: padding udržíme obsah na pôvodnej trim pozícii
+        // (trieda má padding: 0 44px → pridáme bleedPx na L/R)
+        if (el.id === 'card-front') {
+          el.style.paddingLeft  = `${44 + bleedPx}px`;
+          el.style.paddingRight = `${44 + bleedPx}px`;
+        }
 
         const canvas = await html2canvas(el, {
           scale: 4, useCORS: true, allowTaint: true,
           backgroundColor: null, logging: false,
         });
 
-        el.style.borderRadius = prevRadius;
+        // Obnovíme pôvodné štýly
+        el.style.borderRadius = '';
+        el.style.width  = '';
+        el.style.height = '';
+        el.style.paddingLeft  = '';
+        el.style.paddingRight = '';
 
         const imgData = canvas.toDataURL('image/jpeg', 0.97);
 
-        // Bleed: vyplníme tmavou farbou pozadia karty (pomer bleadu ≠ pomer karty)
-        doc.setFillColor(12, 15, 13); // #0c0f0d — tmavé pozadie karty
-        doc.rect(margin - bleed, margin - bleed, trimW + 2 * bleed, trimH + 2 * bleed, 'F');
-
-        // Karta presne na trim rozmery — bez skreslenia
-        doc.addImage(imgData, 'JPEG', margin, margin, trimW, trimH);
+        // Umiestnime na bleed box — design siaha za orezy
+        doc.addImage(imgData, 'JPEG',
+          margin - bleed, margin - bleed,
+          trimW + 2 * bleed, trimH + 2 * bleed
+        );
 
         // Ořezové značky (crop marks)
         drawCropMarks(doc, margin, margin, trimW, trimH, markLen, markGap);
