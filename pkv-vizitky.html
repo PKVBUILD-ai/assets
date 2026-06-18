@@ -510,10 +510,17 @@
       for (let i = 0; i < sides.length; i++) {
         if (i > 0) doc.addPage([pageW, pageH], 'landscape');
 
-        const canvas = await html2canvas(sides[i], {
+        // Dočasne odoberieme zakulatenie — v tlakovom PDF nechceme rounded corners
+        const el = sides[i];
+        const prevRadius = el.style.borderRadius;
+        el.style.borderRadius = '0';
+
+        const canvas = await html2canvas(el, {
           scale: 4, useCORS: true, allowTaint: true,
           backgroundColor: null, logging: false,
         });
+
+        el.style.borderRadius = prevRadius;
 
         const imgData = canvas.toDataURL('image/jpeg', 0.97);
 
