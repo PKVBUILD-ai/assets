@@ -13,8 +13,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: #1a1c1b;
-      color: #e8e8e8;
+      background: #f0f2f1;
+      color: #1a1a1a;
       font-family: "Open Sans", sans-serif;
       min-height: 100vh;
       display: flex; flex-direction: column;
@@ -24,15 +24,15 @@
     .vz-header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 40px; height: 60px; flex: none;
-      background: #222523;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: #fff;
+      border-bottom: 1px solid #e2e4e3;
     }
     .vz-header-left  { display: flex; align-items: center; gap: 14px; }
-    .vz-header-title { font-size: 14px; font-weight: 600; color: #f0f0f0; letter-spacing: 0.01em; }
+    .vz-header-title { font-size: 14px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.01em; }
     .vz-header-badge {
       font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--pkv-green);
-      background: rgba(0,202,133,0.12); border: 1px solid rgba(0,202,133,0.25);
+      text-transform: uppercase; color: var(--pkv-green-dark);
+      background: rgba(0,162,106,0.08); border: 1px solid rgba(0,162,106,0.2);
       padding: 3px 8px; border-radius: 4px;
     }
 
@@ -44,8 +44,8 @@
 
     /* ── Form panel ─────────────────────────────────────────── */
     .vz-form-panel {
-      background: #222523;
-      border-right: 1px solid rgba(255,255,255,0.08);
+      background: #fff;
+      border-right: 1px solid #e2e4e3;
       padding: 32px 28px; overflow-y: auto;
       display: flex; flex-direction: column;
     }
@@ -55,30 +55,31 @@
     .vz-field-group { display: flex; flex-direction: column; margin-bottom: 14px; }
     .vz-label {
       font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
-      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      text-transform: uppercase; color: #888;
       margin-bottom: 6px; display: block;
     }
     .vz-input, .vz-select {
-      width: 100%; background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.13); border-radius: 8px;
-      padding: 10px 13px; color: #f0f0f0;
+      width: 100%; background: #f8f9f8;
+      border: 1px solid #dde0de; border-radius: 8px;
+      padding: 10px 13px; color: #1a1a1a;
       font-family: "Open Sans", sans-serif; font-size: 14px;
-      outline: none; transition: border-color 0.15s, background 0.15s; appearance: none;
+      outline: none; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; appearance: none;
     }
-    .vz-input:hover, .vz-select:hover { border-color: rgba(255,255,255,0.22); }
+    .vz-input:hover, .vz-select:hover { border-color: #b0b8b4; }
     .vz-input:focus, .vz-select:focus {
       border-color: var(--pkv-green);
-      background: rgba(0,202,133,0.06);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0,202,133,0.12);
     }
-    .vz-input::placeholder { color: rgba(255,255,255,0.25); }
+    .vz-input::placeholder { color: #bbb; }
     .vz-select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23888' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23999' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 11px center; cursor: pointer;
       padding-right: 32px;
     }
-    .vz-select option { background: #2a2d2b; color: #f0f0f0; }
+    .vz-select option { background: #fff; color: #1a1a1a; }
 
-    .vz-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 20px 0; }
+    .vz-divider { height: 1px; background: #eaeceb; margin: 20px 0; }
 
     /* ── Actions ────────────────────────────────────────────── */
     .vz-actions { padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
@@ -89,16 +90,16 @@
       cursor: pointer; transition: all 0.15s; width: 100%; letter-spacing: 0.01em;
     }
     .vz-btn-primary {
-      background: var(--pkv-green); color: #111;
-      box-shadow: 0 0 0 0 rgba(0,202,133,0);
+      background: var(--pkv-green); color: #fff;
+      box-shadow: 0 2px 8px rgba(0,202,133,0.25);
     }
     .vz-btn-primary:hover {
-      background: #00e096;
-      box-shadow: 0 4px 20px rgba(0,202,133,0.3);
+      background: var(--pkv-green-dark);
+      box-shadow: 0 4px 16px rgba(0,202,133,0.35);
     }
-    .vz-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+    .vz-btn-primary:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
     .vz-export-info {
-      font-size: 11px; color: rgba(255,255,255,0.3);
+      font-size: 11px; color: #aaa;
       text-align: center; line-height: 1.7; letter-spacing: 0.01em;
     }
 
@@ -107,7 +108,7 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 48px 40px; gap: 48px; overflow: auto;
-      background: #1a1c1b;
+      background: #eef0ef;
     }
     .vz-preview-row {
       display: flex; gap: 40px; align-items: flex-start;
@@ -118,7 +119,7 @@
     }
     .vz-preview-card-label {
       font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; color: #aaa;
     }
 
     /* ── Card — 90×50 mm, displayed at 1.8× = 612×340 px ───── */
@@ -126,7 +127,7 @@
       width: 612px; height: 340px;
       border-radius: 16px; overflow: hidden;
       position: relative; flex: none;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
     }
     .vz-card-back,
     .vz-card-front {
@@ -181,16 +182,16 @@
 
     /* ── Loading ────────────────────────────────────────────── */
     .vz-loading {
-      position: fixed; inset: 0; background: rgba(20,22,21,0.92);
+      position: fixed; inset: 0; background: rgba(240,242,241,0.88);
       display: none; align-items: center; justify-content: center;
       flex-direction: column; gap: 16px; z-index: 9999;
       backdrop-filter: blur(4px);
     }
     .vz-loading.active { display: flex; }
-    .vz-loading-text { font-size: 13px; color: rgba(255,255,255,0.4); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+    .vz-loading-text { font-size: 13px; color: #666; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
     .vz-spinner {
       width: 36px; height: 36px;
-      border: 2px solid rgba(255,255,255,0.08); border-top-color: var(--pkv-green);
+      border: 2px solid #ddd; border-top-color: var(--pkv-green);
       border-radius: 50%; animation: vz-spin 0.75s linear infinite;
     }
     @keyframes vz-spin { to { transform: rotate(360deg); } }
