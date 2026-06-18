@@ -20,49 +20,42 @@
       flex-direction: column;
     }
 
-    /* ── Header ──────────────────────────────────────────── */
+    /* ── Header ─────────────────────────────────────────────── */
     .vz-header {
       display: flex; align-items: center; gap: 16px;
-      padding: 24px 40px;
+      padding: 22px 40px;
       border-bottom: 1px solid #2a2a2a;
       flex: none;
     }
-    .vz-header-title {
-      font-size: 18px; font-weight: 700; color: #fff;
-    }
-    .vz-header-sub {
-      font-size: 13px; color: var(--pkv-gray); margin-top: 2px;
-    }
+    .vz-header-title  { font-size: 18px; font-weight: 700; color: #fff; }
+    .vz-header-sub    { font-size: 13px; color: var(--pkv-gray); margin-top: 2px; }
 
-    /* ── Layout ──────────────────────────────────────────── */
+    /* ── Layout ─────────────────────────────────────────────── */
     .vz-layout {
       display: grid;
       grid-template-columns: 380px 1fr;
-      flex: 1;
-      min-height: 0;
+      flex: 1; min-height: 0;
     }
 
-    /* ── Form panel ──────────────────────────────────────── */
+    /* ── Form panel ─────────────────────────────────────────── */
     .vz-form-panel {
       border-right: 1px solid #2a2a2a;
       padding: 36px 32px;
       overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
+      display: flex; flex-direction: column; gap: 0;
     }
-
-    .vz-field-group {
-      display: flex; flex-direction: column; gap: 4px;
+    .vz-section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #555;
+      margin-bottom: 18px;
     }
-    .vz-field-group + .vz-field-group { margin-top: 4px; }
-
+    .vz-field-group { display: flex; flex-direction: column; margin-bottom: 16px; }
     .vz-label {
       font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
       text-transform: uppercase; color: var(--pkv-gray);
-      margin-bottom: 6px; display: block;
+      margin-bottom: 7px; display: block;
     }
-    .vz-input {
+    .vz-input, .vz-select {
       width: 100%;
       background: #222;
       border: 1.5px solid #383838;
@@ -73,57 +66,49 @@
       font-size: 15px;
       outline: none;
       transition: border-color 0.18s ease;
+      appearance: none;
     }
-    .vz-input:focus { border-color: var(--pkv-green); }
+    .vz-input:focus, .vz-select:focus { border-color: var(--pkv-green); }
     .vz-input::placeholder { color: #555; }
-
-    .vz-divider {
-      height: 1px; background: #2a2a2a; margin: 8px 0;
+    .vz-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
     }
+    .vz-select option { background: #222; color: #fff; }
+    .vz-divider { height: 1px; background: #2a2a2a; margin: 16px 0 24px; }
 
-    .vz-section-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; color: #555;
-      margin-bottom: 14px;
-    }
-
-    /* ── Export buttons ──────────────────────────────────── */
+    /* ── Actions ────────────────────────────────────────────── */
     .vz-actions {
       display: flex; flex-direction: column; gap: 10px;
-      margin-top: auto; padding-top: 16px;
+      margin-top: auto; padding-top: 24px;
     }
     .vz-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
       padding: 13px 20px; border-radius: 8px; border: none;
       font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 15px;
-      cursor: pointer; transition: all 0.15s ease;
-      width: 100%;
+      cursor: pointer; transition: all 0.15s ease; width: 100%;
     }
-    .vz-btn-primary {
-      background: var(--pkv-green); color: #1E1E1E;
-    }
+    .vz-btn-primary { background: var(--pkv-green); color: #1E1E1E; }
     .vz-btn-primary:hover { background: var(--pkv-mint); }
     .vz-btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
-    .vz-btn-secondary {
-      background: transparent; color: var(--pkv-gray);
-      border: 1.5px solid #383838;
+    .vz-export-info {
+      font-size: 12px; color: #555; text-align: center; line-height: 1.6;
     }
-    .vz-btn-secondary:hover { border-color: var(--pkv-gray); color: #fff; }
+    .vz-export-info strong { color: var(--pkv-gray); }
 
-    /* ── Preview panel ───────────────────────────────────── */
+    /* ── Preview panel ──────────────────────────────────────── */
     .vz-preview-panel {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 48px 40px; gap: 40px;
-      position: relative;
       overflow: auto;
     }
-
     .vz-preview-row {
-      display: flex; gap: 40px; align-items: flex-start;
+      display: flex; gap: 48px; align-items: flex-start;
       flex-wrap: wrap; justify-content: center;
     }
-
     .vz-preview-card-wrap {
       display: flex; flex-direction: column; align-items: center; gap: 12px;
     }
@@ -132,114 +117,97 @@
       text-transform: uppercase; color: #555;
     }
 
-    /* ── The card itself ─────────────────────────────────── */
-    /* 90×50mm at 96dpi = 340×189px; we use 1.8× scale for crisp display → 612×340px */
+    /* ── Card ───────────────────────────────────────────────── */
+    /* 90×50 mm — displayed at 1.8× = 612×340 px */
     .vz-card {
       width: 612px; height: 340px;
-      border-radius: 14px;
-      overflow: hidden;
-      position: relative;
-      flex: none;
+      border-radius: 14px; overflow: hidden;
+      position: relative; flex: none;
       box-shadow: 0 20px 60px rgba(0,0,0,0.7);
     }
 
-    /* Back side */
+    /* Gradients:
+       Zelená  → pravý horný roh (100% 0%)
+       Fialová → dolný pravý roh  (100% 100%)                */
     .vz-card-back {
       background:
-        radial-gradient(ellipse 70% 70% at 20% 20%, rgba(0,202,133,0.30) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 60% at 82% 78%, rgba(110,63,245,0.28) 0%, transparent 60%),
-        #0d1110;
+        radial-gradient(ellipse 90% 90% at 100% 0%,   rgba(0,202,133,0.38)   0%, transparent 65%),
+        radial-gradient(ellipse 85% 85% at 100% 100%, rgba(110,63,245,0.32)  0%, transparent 65%),
+        #0c0f0d;
       display: flex; align-items: center; justify-content: center;
     }
-
-    /* Front side */
     .vz-card-front {
       background:
-        radial-gradient(ellipse 65% 65% at 18% 22%, rgba(110,63,245,0.28) 0%, transparent 60%),
-        radial-gradient(ellipse 70% 70% at 82% 80%, rgba(0,202,133,0.30) 0%, transparent 65%),
-        #0d1110;
+        radial-gradient(ellipse 90% 90% at 100% 0%,   rgba(0,202,133,0.38)   0%, transparent 65%),
+        radial-gradient(ellipse 85% 85% at 100% 100%, rgba(110,63,245,0.32)  0%, transparent 65%),
+        #0c0f0d;
       display: flex; align-items: center;
-      padding: 0 44px;
-      gap: 36px;
+      padding: 0 44px; gap: 36px;
     }
 
-    /* QR container */
+    /* ── QR wrap + logo overlay ─────────────────────────────── */
     .vz-card-qr-wrap {
       flex: none;
       width: 164px; height: 164px;
       background: #1a1a1a;
       border-radius: 22px;
+      position: relative;
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
     .vz-card-qr-wrap canvas,
-    .vz-card-qr-wrap img { display: block; border-radius: 6px; }
+    .vz-card-qr-wrap img { display: block; }
 
-    /* Card text */
+    /* PKV logo centered over QR */
+    .vz-qr-logo {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px; height: 32px;
+      background: #1a1a1a;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .vz-qr-logo svg { width: 28px; height: 28px; display: block; }
+    .vz-qr-logo img { width: 28px; height: 28px; display: block; object-fit: contain; }
+
+    /* ── Card text ──────────────────────────────────────────── */
     .vz-card-info {
-      flex: 1; display: flex; flex-direction: column;
-      justify-content: center;
+      flex: 1; display: flex; flex-direction: column; justify-content: center;
     }
     .vz-card-name {
-      font-family: "Open Sans", sans-serif;
-      font-weight: 700;
-      font-size: 27px;
-      color: #ffffff;
-      line-height: 1.18;
-      margin-bottom: 6px;
+      font-family: "Open Sans", sans-serif; font-weight: 700;
+      font-size: 27px; color: #fff; line-height: 1.18; margin-bottom: 6px;
     }
     .vz-card-position {
-      font-family: "Open Sans", sans-serif;
-      font-weight: 400;
-      font-size: 18px;
-      color: #c0c0c0;
-      line-height: 1.3;
-      margin-bottom: 20px;
+      font-family: "Open Sans", sans-serif; font-weight: 400;
+      font-size: 18px; color: #c0c0c0; line-height: 1.3; margin-bottom: 22px;
     }
-    .vz-card-contact {
-      display: flex; flex-direction: column; gap: 5px;
-    }
+    .vz-card-contact { display: flex; flex-direction: column; gap: 6px; }
     .vz-card-contact-line {
-      font-family: "Open Sans", sans-serif;
-      font-weight: 400;
-      font-size: 15px;
-      color: var(--pkv-green);
-      line-height: 1.4;
+      font-family: "Open Sans", sans-serif; font-weight: 400;
+      font-size: 16px; color: #00CA85; line-height: 1.35;
     }
 
-    /* PKV logo SVG on back */
-    .vz-logo-mark {
-      width: 120px;
-      height: auto;
-    }
-    /* Fetched inline logo fills its slot */
-    .vz-logo-slot svg { width: 100%; height: auto; display: block; }
-    .vz-logo-slot img { width: 100%; height: auto; display: block; }
+    /* ── Back-side logo slot ────────────────────────────────── */
+    .vz-logo-slot svg  { width: 100%; height: auto; display: block; }
+    .vz-logo-slot img  { width: 100%; height: auto; display: block; }
 
-    /* ── Export info ─────────────────────────────────────── */
-    .vz-export-info {
-      font-size: 12px; color: #555; text-align: center; line-height: 1.6;
-    }
-    .vz-export-info strong { color: var(--pkv-gray); }
-
-    /* ── Loading overlay ─────────────────────────────────── */
+    /* ── Loading overlay ────────────────────────────────────── */
     .vz-loading {
       position: fixed; inset: 0;
-      background: rgba(14,14,14,0.85);
+      background: rgba(14,14,14,0.88);
       display: none; align-items: center; justify-content: center;
-      flex-direction: column; gap: 16px;
-      z-index: 9999;
+      flex-direction: column; gap: 16px; z-index: 9999;
     }
     .vz-loading.active { display: flex; }
-    .vz-loading-text {
-      font-size: 15px; color: var(--pkv-gray); font-weight: 600;
-    }
+    .vz-loading-text { font-size: 15px; color: var(--pkv-gray); font-weight: 600; }
     .vz-spinner {
       width: 40px; height: 40px;
-      border: 3px solid #333;
-      border-top-color: var(--pkv-green);
-      border-radius: 50%;
-      animation: vz-spin 0.8s linear infinite;
+      border: 3px solid #333; border-top-color: var(--pkv-green);
+      border-radius: 50%; animation: vz-spin 0.8s linear infinite;
     }
     @keyframes vz-spin { to { transform: rotate(360deg); } }
 
@@ -248,344 +216,355 @@
       .vz-form-panel { border-right: none; border-bottom: 1px solid #2a2a2a; }
     }
     @media (max-width: 700px) {
-      .vz-header { padding: 16px 20px; }
-      .vz-card { width: 340px; height: 189px; border-radius: 8px; }
+      .vz-header  { padding: 16px 20px; }
+      .vz-card    { width: 340px; height: 189px; border-radius: 8px; }
       .vz-card-front { padding: 0 24px; gap: 20px; }
       .vz-card-qr-wrap { width: 90px; height: 90px; border-radius: 12px; }
-      .vz-card-name { font-size: 15px; margin-bottom: 3px; }
-      .vz-card-position { font-size: 10px; margin-bottom: 11px; }
+      .vz-qr-logo { width: 18px; height: 18px; }
+      .vz-qr-logo svg, .vz-qr-logo img { width: 14px; height: 14px; }
+      .vz-card-name     { font-size: 15px; margin-bottom: 3px; }
+      .vz-card-position { font-size: 10px; margin-bottom: 12px; }
       .vz-card-contact-line { font-size: 8.5px; }
-      .vz-logo-mark { width: 66px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="vz-header">
-    <div class="vz-logo-slot" id="logo-header" style="width:56px;height:auto;display:flex;align-items:center">
-      <svg class="vz-logo-mark" style="width:56px;height:auto" viewBox="0 0 120 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18 6 C8 6 4 14 8 22 L44 64 C48 72 58 72 62 64 L116 14 C120 6 112 -2 104 2 L62 26 C58 28 52 28 48 26 Z" fill="#00CA85"/>
-        <text x="34" y="46" font-family="Open Sans,sans-serif" font-weight="700" font-size="22" fill="#1E1E1E" letter-spacing="-0.5">pkv</text>
-      </svg>
-    </div>
+<!-- ── Header ────────────────────────────────────────────────── -->
+<header class="vz-header">
+  <div class="vz-logo-slot" id="logo-header" style="width:52px;flex:none;display:flex;align-items:center">
+    <!-- fallback built-in logo -->
+    <svg viewBox="0 0 56 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:auto">
+      <path d="M8.4 2.8C3.7 2.8 1.9 6.6 3.7 10.3L20.6 30c1.8 3.7 6.5 3.7 8.3 0L54.3 6.6C56.1 2.9 53.2-.7 49.5 1L29 12.2c-1.8.9-4.2.9-6 0Z" fill="#00CA85"/>
+      <text x="15.5" y="21.5" font-family="Open Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1E1E1E" letter-spacing="-0.3">pkv</text>
+    </svg>
+  </div>
+  <div>
+    <div class="vz-header-title">Generátor vizitiek</div>
+    <div class="vz-header-sub">Vyplňte údaje → živý náhľad → export tlačových PDF</div>
+  </div>
+</header>
+
+<!-- ── Layout ────────────────────────────────────────────────── -->
+<div class="vz-layout">
+
+  <!-- Form panel -->
+  <aside class="vz-form-panel">
     <div>
-      <div class="vz-header-title">Generátor vizitiek</div>
-      <div class="vz-header-sub">Vyplňte údaje → náhľad → export tlačových PDF</div>
+      <div class="vz-section-label">Osobní údaje</div>
+
+      <div class="vz-field-group">
+        <label class="vz-label" for="f-titul">Titul</label>
+        <select class="vz-select" id="f-titul">
+          <option value="">— bez titulu —</option>
+          <option value="Bc.">Bc.</option>
+          <option value="Ing.">Ing.</option>
+          <option value="Ing. arch.">Ing. arch.</option>
+          <option value="Mgr.">Mgr.</option>
+          <option value="Mgr. art.">Mgr. art.</option>
+          <option value="MgA.">MgA.</option>
+          <option value="MUDr.">MUDr.</option>
+          <option value="MVDr.">MVDr.</option>
+          <option value="JUDr.">JUDr.</option>
+          <option value="PhDr.">PhDr.</option>
+          <option value="RNDr.">RNDr.</option>
+          <option value="PharmDr.">PharmDr.</option>
+          <option value="ThDr.">ThDr.</option>
+          <option value="Dr.">Dr.</option>
+          <option value="DiS.">DiS.</option>
+          <option value="PhD.">PhD.</option>
+          <option value="doc.">doc.</option>
+          <option value="prof.">prof.</option>
+        </select>
+      </div>
+
+      <div class="vz-field-group">
+        <label class="vz-label" for="f-meno">Jméno a příjmení</label>
+        <input class="vz-input" id="f-meno" type="text" placeholder="Jan Novák" autocomplete="off">
+      </div>
+
+      <div class="vz-field-group">
+        <label class="vz-label" for="f-pozicia">Pozice</label>
+        <input class="vz-input" id="f-pozicia" type="text" placeholder="Obchodní ředitel" autocomplete="off">
+      </div>
     </div>
-  </header>
 
-  <!-- Main layout -->
-  <div class="vz-layout">
+    <div class="vz-divider"></div>
 
-    <!-- Form panel -->
-    <aside class="vz-form-panel">
-      <div>
-        <div class="vz-section-label">Osobní údaje</div>
+    <div>
+      <div class="vz-section-label">Kontakt</div>
 
-        <div class="vz-field-group">
-          <label class="vz-label" for="f-titul">Titul</label>
-          <input class="vz-input" id="f-titul" type="text" placeholder="Ing., Mgr., Dr. …" autocomplete="off">
-        </div>
-
-        <div class="vz-field-group" style="margin-top:14px">
-          <label class="vz-label" for="f-meno">Jméno a příjmení</label>
-          <input class="vz-input" id="f-meno" type="text" placeholder="Jan Novák" autocomplete="off">
-        </div>
-
-        <div class="vz-field-group" style="margin-top:14px">
-          <label class="vz-label" for="f-pozicia">Pozice</label>
-          <input class="vz-input" id="f-pozicia" type="text" placeholder="Obchodní ředitel" autocomplete="off">
-        </div>
+      <div class="vz-field-group">
+        <label class="vz-label" for="f-telefon">Telefon</label>
+        <input class="vz-input" id="f-telefon" type="tel" placeholder="+420 601 123 456" autocomplete="off">
       </div>
 
-      <div class="vz-divider"></div>
-
-      <div>
-        <div class="vz-section-label">Kontakt</div>
-
-        <div class="vz-field-group">
-          <label class="vz-label" for="f-email">E-mail</label>
-          <input class="vz-input" id="f-email" type="email" placeholder="jan.novak@pkv.cz" autocomplete="off">
-        </div>
-
-        <div class="vz-field-group" style="margin-top:14px">
-          <label class="vz-label" for="f-telefon">Telefon</label>
-          <input class="vz-input" id="f-telefon" type="tel" placeholder="+420 601 123 456" autocomplete="off">
-        </div>
+      <div class="vz-field-group">
+        <label class="vz-label" for="f-email">E-mail</label>
+        <input class="vz-input" id="f-email" type="email" placeholder="jan.novak@pkv.cz" autocomplete="off">
       </div>
+    </div>
 
-      <div class="vz-divider"></div>
-
-      <div class="vz-actions">
-        <button class="vz-btn vz-btn-primary" id="btn-export" onclick="exportPDF()">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
-          Exportovat tiskové PDF
-        </button>
-        <div class="vz-export-info">
-          Export: <strong>A4 PDF</strong> · 2 strany · bleed <strong>3 mm</strong> · ořezové značky<br>
-          Formát vizitky: <strong>90 × 50 mm</strong>
-        </div>
+    <div class="vz-actions">
+      <button class="vz-btn vz-btn-primary" id="btn-export" onclick="exportPDF()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/>
+        </svg>
+        Exportovat tiskové PDF
+      </button>
+      <div class="vz-export-info">
+        <strong>90 × 50 mm</strong> · bleed <strong>3 mm</strong> · ořezové značky · <strong>2 strany</strong>
       </div>
-    </aside>
+    </div>
+  </aside>
 
-    <!-- Preview panel -->
-    <main class="vz-preview-panel">
-      <div class="vz-preview-row">
+  <!-- Preview panel -->
+  <main class="vz-preview-panel">
+    <div class="vz-preview-row">
 
-        <div class="vz-preview-card-wrap">
-          <div class="vz-preview-card-label">Přední strana</div>
-          <div class="vz-card vz-card-front" id="card-front">
-            <div class="vz-card-qr-wrap" id="qr-container"></div>
-            <div class="vz-card-info">
-              <div class="vz-card-name" id="preview-name">Jméno Příjmení</div>
-              <div class="vz-card-position" id="preview-position">Funkce / dlouhý název</div>
-              <div class="vz-card-contact">
-                <div class="vz-card-contact-line" id="preview-telefon">+420 123 123 123</div>
-                <div class="vz-card-contact-line" id="preview-email">mail@pkv.cz</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="vz-preview-card-wrap">
-          <div class="vz-preview-card-label">Zadní strana (neměnná)</div>
-          <div class="vz-card vz-card-back" id="card-back">
-            <div class="vz-logo-slot" id="logo-back" style="width:150px;display:flex;align-items:center;justify-content:center">
-              <svg class="vz-logo-mark" viewBox="0 0 240 144" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M36 12 C16 12 8 28 16 44 L88 128 C96 144 116 144 124 128 L232 28 C240 12 224 -4 208 4 L124 52 C116 56 104 56 96 52 Z" fill="#00CA85"/>
-                <text x="68" y="92" font-family="Open Sans,sans-serif" font-weight="700" font-size="44" fill="#1E1E1E" letter-spacing="-1">pkv</text>
+      <div class="vz-preview-card-wrap">
+        <div class="vz-preview-card-label">Přední strana</div>
+        <div class="vz-card vz-card-front" id="card-front">
+          <!-- QR + logo overlay -->
+          <div class="vz-card-qr-wrap" id="qr-container">
+            <div class="vz-qr-logo" id="qr-logo-overlay">
+              <!-- filled by loadLogo() or fallback -->
+              <svg viewBox="0 0 56 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.4 2.8C3.7 2.8 1.9 6.6 3.7 10.3L20.6 30c1.8 3.7 6.5 3.7 8.3 0L54.3 6.6C56.1 2.9 53.2-.7 49.5 1L29 12.2c-1.8.9-4.2.9-6 0Z" fill="#00CA85"/>
+                <text x="15.5" y="21.5" font-family="Open Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1E1E1E" letter-spacing="-0.3">pkv</text>
               </svg>
             </div>
           </div>
+          <!-- Text info -->
+          <div class="vz-card-info">
+            <div class="vz-card-name"     id="preview-name">Jméno Příjmení</div>
+            <div class="vz-card-position" id="preview-position">Funkce / dlouhý název</div>
+            <div class="vz-card-contact">
+              <div class="vz-card-contact-line" id="preview-telefon">+420 123 123 123</div>
+              <div class="vz-card-contact-line" id="preview-email">mail@pkv.cz</div>
+            </div>
+          </div>
         </div>
-
       </div>
-    </main>
-  </div>
 
-  <!-- Loading overlay -->
-  <div class="vz-loading" id="loading">
-    <div class="vz-spinner"></div>
-    <div class="vz-loading-text">Generuji PDF…</div>
-  </div>
+      <div class="vz-preview-card-wrap">
+        <div class="vz-preview-card-label">Zadní strana</div>
+        <div class="vz-card vz-card-back" id="card-back">
+          <div class="vz-logo-slot" id="logo-back" style="width:160px;display:flex;align-items:center;justify-content:center">
+            <svg viewBox="0 0 240 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M36 12C16 12 8 28 16 44L88 128C96 144 116 144 124 128L232 28C240 12 224-4 208 4L124 52C116 56 104 56 96 52Z" fill="#00CA85"/>
+              <text x="68" y="92" font-family="Open Sans,sans-serif" font-weight="700" font-size="44" fill="#1E1E1E" letter-spacing="-1">pkv</text>
+            </svg>
+          </div>
+        </div>
+      </div>
 
-  <script>
-    /* ============================================================
-       Logo — load from PKV web (inline so it exports to PDF),
-       fall back to built-in SVG if the network blocks it.
-       ============================================================ */
-    const LOGO_URL = 'https://cdn.prod.website-files.com/5df27458f3b0887d3f8ad756/6398e2dbba30d8454445577b_pkv-logo-new.svg';
+    </div>
+  </main>
+</div>
 
-    async function loadLogo() {
-      try {
-        const res = await fetch(LOGO_URL, { mode: 'cors' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const svgText = await res.text();
-        if (!svgText.includes('<svg')) throw new Error('Not an SVG');
-        // Inject inline into both slots (html2canvas renders inline SVG into the PDF)
-        const header = document.getElementById('logo-header');
-        const back   = document.getElementById('logo-back');
-        if (header) header.innerHTML = svgText;
-        if (back)   back.innerHTML   = svgText;
-      } catch (e) {
-        // Keep the built-in fallback logo already present in the slots
-        console.warn('PKV logo z webu se nepodařilo načíst, používám zabudované logo:', e.message);
+<!-- Loading overlay -->
+<div class="vz-loading" id="loading">
+  <div class="vz-spinner"></div>
+  <div class="vz-loading-text">Generuji PDF…</div>
+</div>
+
+<script>
+  /* ============================================================
+     Logo — fetch official SVG inline for crisp PDF rendering
+     ============================================================ */
+  const LOGO_URL = 'https://cdn.prod.website-files.com/5df27458f3b0887d3f8ad756/6398e2dbba30d8454445577b_pkv-logo-new.svg';
+
+  async function loadLogo() {
+    try {
+      const res = await fetch(LOGO_URL, { mode: 'cors' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const svgText = await res.text();
+      if (!svgText.includes('<svg')) throw new Error('Not SVG');
+
+      ['logo-header', 'logo-back'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = svgText;
+      });
+
+      // Also update QR logo overlay
+      const qrLogoEl = document.getElementById('qr-logo-overlay');
+      if (qrLogoEl) {
+        qrLogoEl.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = LOGO_URL;
+        img.style.cssText = 'width:28px;height:28px;object-fit:contain;display:block';
+        qrLogoEl.appendChild(img);
       }
+    } catch (e) {
+      console.warn('PKV logo sa nepodarilo načítať, používam záložné:', e.message);
     }
-    loadLogo();
+  }
+  loadLogo();
 
-    /* ============================================================
-       Live preview update
-       ============================================================ */
-    const fields = {
-      titul:   document.getElementById('f-titul'),
-      meno:    document.getElementById('f-meno'),
-      pozicia: document.getElementById('f-pozicia'),
-      email:   document.getElementById('f-email'),
-      telefon: document.getElementById('f-telefon'),
-    };
+  /* ============================================================
+     Form fields
+     ============================================================ */
+  const fields = {
+    titul:   document.getElementById('f-titul'),
+    meno:    document.getElementById('f-meno'),
+    pozicia: document.getElementById('f-pozicia'),
+    telefon: document.getElementById('f-telefon'),
+    email:   document.getElementById('f-email'),
+  };
 
-    const prevName     = document.getElementById('preview-name');
-    const prevPosition = document.getElementById('preview-position');
-    const prevEmail    = document.getElementById('preview-email');
-    const prevTelefon  = document.getElementById('preview-telefon');
+  function getDisplayName() {
+    const t = fields.titul.value.trim();
+    const m = fields.meno.value.trim();
+    if (!t && !m) return 'Jméno Příjmení';
+    return [t, m].filter(Boolean).join(' ');
+  }
 
-    function getDisplayName() {
-      const titul = fields.titul.value.trim();
-      const meno  = fields.meno.value.trim();
-      if (!titul && !meno) return 'Jméno Příjmení';
-      return [titul, meno].filter(Boolean).join(' ');
-    }
-
-    function updatePreview() {
-      prevName.textContent     = getDisplayName();
-      prevPosition.textContent = fields.pozicia.value.trim() || 'Funkce / dlouhý název';
-      prevEmail.textContent    = fields.email.value.trim()   || 'mail@pkv.cz';
-      prevTelefon.textContent  = fields.telefon.value.trim() || '+420 123 123 123';
-      regenerateQR();
-    }
-
-    Object.values(fields).forEach(f => f.addEventListener('input', updatePreview));
-
-    /* ============================================================
-       QR code generation (vCard)
-       ============================================================ */
-    let qrInstance = null;
-
-    function buildVCard() {
-      const titul   = fields.titul.value.trim();
-      const meno    = fields.meno.value.trim();
-      const pozicia = fields.pozicia.value.trim();
-      const email   = fields.email.value.trim();
-      const tel     = fields.telefon.value.trim();
-
-      // Split name into first/last heuristically
-      const parts = meno.split(' ');
-      const last  = parts.length > 1 ? parts[parts.length - 1] : parts[0] || '';
-      const first = parts.length > 1 ? parts.slice(0, -1).join(' ') : '';
-
-      return [
-        'BEGIN:VCARD',
-        'VERSION:3.0',
-        `N:${last};${first};;;${titul ? 'PREFIX=' + titul : ''}`,
-        `FN:${[titul, meno].filter(Boolean).join(' ') || 'PKV Kontakt'}`,
-        pozicia ? `TITLE:${pozicia}` : '',
-        email   ? `EMAIL:${email}`   : '',
-        tel     ? `TEL:${tel}`       : '',
-        'ORG:PKV BUILD s.r.o.',
-        'END:VCARD',
-      ].filter(Boolean).join('\n');
-    }
-
-    function regenerateQR() {
-      const container = document.getElementById('qr-container');
-      container.innerHTML = '';
-
-      const vcard = buildVCard();
-      // QR size to fit inside the container: container is 164×164 in preview
-      const qrSize = 140;
-
-      try {
-        new QRCode(container, {
-          text: vcard,
-          width:  qrSize,
-          height: qrSize,
-          colorDark:  '#ffffff',
-          colorLight: '#1a1a1a',
-          correctLevel: QRCode.CorrectLevel.M,
-        });
-      } catch (e) {
-        console.warn('QR generation failed:', e);
-      }
-    }
-
-    // Initial QR
+  function updatePreview() {
+    document.getElementById('preview-name').textContent     = getDisplayName();
+    document.getElementById('preview-position').textContent = fields.pozicia.value.trim() || 'Funkce / dlouhý název';
+    document.getElementById('preview-telefon').textContent  = fields.telefon.value.trim() || '+420 123 123 123';
+    document.getElementById('preview-email').textContent    = fields.email.value.trim()   || 'mail@pkv.cz';
     regenerateQR();
+  }
 
-    /* ============================================================
-       PDF export
-       ============================================================ */
-    async function exportPDF() {
-      const btn = document.getElementById('btn-export');
-      const loading = document.getElementById('loading');
+  Object.values(fields).forEach(f => f.addEventListener('input', updatePreview));
+  Object.values(fields).forEach(f => f.addEventListener('change', updatePreview));
 
-      btn.disabled = true;
-      loading.classList.add('active');
+  /* ============================================================
+     QR — vCard, H error correction (30%) for logo overlay
+     ============================================================ */
+  function buildVCard() {
+    const t  = fields.titul.value.trim();
+    const m  = fields.meno.value.trim();
+    const p  = fields.pozicia.value.trim();
+    const em = fields.email.value.trim();
+    const ph = fields.telefon.value.trim();
+    const parts = m.split(' ');
+    const last  = parts.length > 1 ? parts[parts.length - 1] : parts[0] || '';
+    const first = parts.length > 1 ? parts.slice(0, -1).join(' ') : '';
+    return [
+      'BEGIN:VCARD', 'VERSION:3.0',
+      `N:${last};${first};;;`,
+      `FN:${[t, m].filter(Boolean).join(' ') || 'PKV Kontakt'}`,
+      t  ? `TITLE:${p}` : (p ? `TITLE:${p}` : ''),
+      em ? `EMAIL:${em}` : '',
+      ph ? `TEL:${ph}`   : '',
+      'ORG:PKV BUILD s.r.o.',
+      'END:VCARD',
+    ].filter(Boolean).join('\n');
+  }
 
-      try {
-        const { jsPDF } = window.jspdf;
+  function regenerateQR() {
+    const container = document.getElementById('qr-container');
+    // Remove old QR canvas/img but keep the logo overlay
+    const logoOverlay = document.getElementById('qr-logo-overlay');
+    container.innerHTML = '';
+    if (logoOverlay) container.appendChild(logoOverlay);
 
-        // Card trim dimensions in mm
-        const trimW = 90, trimH = 50;
-        const bleed = 3;        // mm bleed each side
-        const markGap = 2;      // mm gap between trim and mark start
-        const markLen = 5;      // mm mark length
-        const margin  = bleed + markGap + markLen; // total page margin each side
+    try {
+      new QRCode(container, {
+        text: buildVCard(),
+        width: 140, height: 140,
+        colorDark:  '#ffffff',
+        colorLight: '#1a1a1a',
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+      // Move overlay on top after QRCode appends its canvas
+      if (logoOverlay) container.appendChild(logoOverlay);
+    } catch (e) {
+      console.warn('QR failed:', e);
+    }
+  }
 
-        const pageW = trimW + 2 * margin;
-        const pageH = trimH + 2 * margin;
+  regenerateQR();
 
-        const doc = new jsPDF({
-          orientation: 'landscape',
-          unit: 'mm',
-          format: [pageW, pageH],
+  /* ============================================================
+     PDF export
+     ============================================================ */
+  async function exportPDF() {
+    const btn     = document.getElementById('btn-export');
+    const loading = document.getElementById('loading');
+    btn.disabled = true;
+    loading.classList.add('active');
+
+    try {
+      const { jsPDF } = window.jspdf;
+
+      const trimW = 90, trimH = 50; // mm
+      const bleed   = 3;
+      const markGap = 2;
+      const markLen = 5;
+      const margin  = bleed + markGap + markLen;
+      const pageW   = trimW + 2 * margin;
+      const pageH   = trimH + 2 * margin;
+
+      const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [pageW, pageH] });
+
+      // PDF filename: vizitky_Jmeno_Prijmeni
+      const rawName = fields.meno.value.trim() || 'vizitka';
+      const safeName = rawName
+        .normalize('NFD').replace(/[̀-ͯ]/g, '') // strip diacritics for filename
+        .replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
+      const filename = `vizitky_${safeName}.pdf`;
+
+      const sides = [
+        { el: document.getElementById('card-front') },
+        { el: document.getElementById('card-back')  },
+      ];
+
+      for (let i = 0; i < sides.length; i++) {
+        if (i > 0) doc.addPage([pageW, pageH], 'landscape');
+
+        const canvas = await html2canvas(sides[i].el, {
+          scale: 4,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: null,
+          logging: false,
         });
 
-        const sides = [
-          { el: document.getElementById('card-front'), label: 'Přední strana' },
-          { el: document.getElementById('card-back'),  label: 'Zadní strana'  },
-        ];
+        const imgData = canvas.toDataURL('image/jpeg', 0.97);
+        const bleedX = margin - bleed;
+        const bleedY = margin - bleed;
+        const bleedW = trimW + 2 * bleed;
+        const bleedH = trimH + 2 * bleed;
 
-        for (let i = 0; i < sides.length; i++) {
-          if (i > 0) doc.addPage([pageW, pageH], 'landscape');
+        doc.addImage(imgData, 'JPEG', bleedX, bleedY, bleedW, bleedH);
+        drawCropMarks(doc, margin, margin, trimW, trimH, markLen, markGap);
 
-          const { el } = sides[i];
-
-          // Capture at 4× for 300 dpi equivalent
-          // Card screen size: 612×340 px (2× of 306×170 logical)
-          const canvas = await html2canvas(el, {
-            scale: 4,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: null,
-            logging: false,
-          });
-
-          const imgData = canvas.toDataURL('image/jpeg', 0.97);
-
-          // Bleed box origin on page (mm)
-          const bleedX = margin - bleed;
-          const bleedY = margin - bleed;
-          const bleedW = trimW + 2 * bleed;
-          const bleedH = trimH + 2 * bleed;
-
-          // Draw card image (covering bleed area)
-          doc.addImage(imgData, 'JPEG', bleedX, bleedY, bleedW, bleedH);
-
-          // Crop marks (trim corners)
-          drawCropMarks(doc, margin, margin, trimW, trimH, markLen, markGap);
-
-          // Page label (small, outside marks)
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(6);
-          doc.setTextColor(150, 150, 150);
-          doc.text(sides[i].label, margin, margin - markGap - markLen - 2, { align: 'left' });
-        }
-
-        // Name the file
-        const name = fields.meno.value.trim().replace(/\s+/g, '_') || 'PKV_vizitka';
-        doc.save(`${name}_vizitka_tisk.pdf`);
-
-      } catch (err) {
-        console.error('PDF export failed:', err);
-        alert('Export se nezdařil: ' + err.message);
-      } finally {
-        btn.disabled = false;
-        loading.classList.remove('active');
+        // Page name above the card (tiny, outside crop marks)
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(5.5);
+        doc.setTextColor(130, 130, 130);
+        const label = i === 0 ? rawName : '';
+        if (label) doc.text(label, margin, margin - markGap - markLen - 1.5, { align: 'left' });
       }
+
+      doc.save(filename);
+    } catch (err) {
+      console.error('Export failed:', err);
+      alert('Export sa nepodaril: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      loading.classList.remove('active');
     }
+  }
 
-    function drawCropMarks(doc, trimX, trimY, trimW, trimH, markLen, gap) {
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.2);
-
-      const x0 = trimX, x1 = trimX + trimW;
-      const y0 = trimY, y1 = trimY + trimH;
-
-      // Top-left
-      doc.line(x0 - gap - markLen, y0, x0 - gap, y0);
-      doc.line(x0, y0 - gap - markLen, x0, y0 - gap);
-      // Top-right
-      doc.line(x1 + gap, y0, x1 + gap + markLen, y0);
-      doc.line(x1, y0 - gap - markLen, x1, y0 - gap);
-      // Bottom-left
-      doc.line(x0 - gap - markLen, y1, x0 - gap, y1);
-      doc.line(x0, y1 + gap, x0, y1 + gap + markLen);
-      // Bottom-right
-      doc.line(x1 + gap, y1, x1 + gap + markLen, y1);
-      doc.line(x1, y1 + gap, x1, y1 + gap + markLen);
-    }
-  </script>
+  function drawCropMarks(doc, trimX, trimY, trimW, trimH, markLen, gap) {
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.2);
+    const x0 = trimX, x1 = trimX + trimW;
+    const y0 = trimY, y1 = trimY + trimH;
+    doc.line(x0 - gap - markLen, y0, x0 - gap, y0);  // TL horiz
+    doc.line(x0, y0 - gap - markLen, x0, y0 - gap);  // TL vert
+    doc.line(x1 + gap, y0, x1 + gap + markLen, y0);  // TR horiz
+    doc.line(x1, y0 - gap - markLen, x1, y0 - gap);  // TR vert
+    doc.line(x0 - gap - markLen, y1, x0 - gap, y1);  // BL horiz
+    doc.line(x0, y1 + gap, x0, y1 + gap + markLen);  // BL vert
+    doc.line(x1 + gap, y1, x1 + gap + markLen, y1);  // BR horiz
+    doc.line(x1, y1 + gap, x1, y1 + gap + markLen);  // BR vert
+  }
+</script>
 </body>
 </html>
