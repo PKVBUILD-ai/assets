@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PKV Vizitky — Generátor</title>
   <link rel="stylesheet" href="colors_and_type.css">
-  <!-- qrcodejs z cdnjs — stabilné CDN; UTF-8 fix cez unescape+encodeURIComponent -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- qrcode-generator: explicitný Byte mode, spolahlivá UTF-8 podpora -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
@@ -417,29 +417,61 @@
     ].filter(Boolean).join('\n');
   }
 
+  /* Prevedie string na UTF-8 bajty ako Uint8Array */
+  function toUTF8Bytes(str) {
+    return new TextEncoder().encode(str);
+  }
+
   function regenerateQR() {
     const container   = document.getElementById('qr-container');
     const logoOverlay = document.getElementById('qr-logo-overlay');
 
-    // Odstrán starý QR, zachovaj logo overlay
     Array.from(container.children).forEach(child => {
       if (child !== logoOverlay) child.remove();
     });
 
-    // Dočasný div — qrcodejs vyžaduje prázdny element
-    const qrDiv = document.createElement('div');
-    container.insertBefore(qrDiv, logoOverlay);
-
     try {
-      // unescape(encodeURIComponent(str)) = UTF-8 fix pre diakritiku v qrcodejs
-      new QRCode(qrDiv, {
-        text:         unescape(encodeURIComponent(buildVCard())),
-        width:        140,
-        height:       140,
-        colorDark:    '#ffffff',
-        colorLight:   '#1a1a1a',
-        correctLevel: QRCode.CorrectLevel.H,
-      });
+      /* qrcode-generator API:
+         qrcode(typeNumber, errorCorrectionLevel)
+         typeNumber 0 = auto-detect veľkosť                  */
+      const qr = qrcode(0, 'H');
+
+      /* Byte mode + manuálna UTF-8 konverzia cez TextEncoder.
+         Každý element Uint8Array je jeden bajt — QR kód tak obsahuje
+         platné UTF-8 bajty bez ohľadu na znaky v texte.          */
+      const bytes = toUTF8Bytes(buildVCard());
+      const byteString = Array.from(bytes).map(b => String.fromCharCode(b)).join('');
+      qr.addData(byteString, 'Byte');
+      qr.make();
+
+      /* createDataURL vracia čiernobiely PNG (čierne moduly, biele pozadie).
+         Prekreslíme ho na canvas s farebnými modulmi: biela/tmavá.        */
+      const rawDataUrl = qr.createDataURL(10, 1);
+      const SIZE = 140;
+
+      const tmpImg = new Image();
+      tmpImg.onload = function () {
+        const c = document.createElement('canvas');
+        c.width = SIZE; c.height = SIZE;
+        c.style.cssText = 'display:block;border-radius:4px';
+        const ctx = c.getContext('2d');
+        ctx.drawImage(tmpImg, 0, 0, SIZE, SIZE);
+
+        /* Rekolorovanie: čierny modul → biely, biele pozadie → #1a1a1a */
+        const id = ctx.getImageData(0, 0, SIZE, SIZE);
+        const d  = id.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const dark = d[i] < 128;
+          d[i]   = dark ? 255 : 26;
+          d[i+1] = dark ? 255 : 26;
+          d[i+2] = dark ? 255 : 26;
+          d[i+3] = 255;
+        }
+        ctx.putImageData(id, 0, 0);
+        container.insertBefore(c, logoOverlay);
+      };
+      tmpImg.src = rawDataUrl;
+
     } catch (err) {
       console.warn('QR zlyhalo:', err);
     }
