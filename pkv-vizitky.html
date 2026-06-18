@@ -431,46 +431,41 @@
     });
 
     try {
-      /* qrcode-generator API:
-         qrcode(typeNumber, errorCorrectionLevel)
-         typeNumber 0 = auto-detect veľkosť                  */
       const qr = qrcode(0, 'H');
-
-      /* Byte mode + manuálna UTF-8 konverzia cez TextEncoder.
-         Každý element Uint8Array je jeden bajt — QR kód tak obsahuje
-         platné UTF-8 bajty bez ohľadu na znaky v texte.          */
-      const bytes = toUTF8Bytes(buildVCard());
+      const bytes      = toUTF8Bytes(buildVCard());
       const byteString = Array.from(bytes).map(b => String.fromCharCode(b)).join('');
       qr.addData(byteString, 'Byte');
       qr.make();
 
-      /* createDataURL vracia čiernobiely PNG (čierne moduly, biele pozadie).
-         Prekreslíme ho na canvas s farebnými modulmi: biela/tmavá.        */
-      const rawDataUrl = qr.createDataURL(10, 1);
-      const SIZE = 140;
+      const n   = qr.getModuleCount();
+      const pad = 1; // tichá zóna v moduloch
+      const total = n + pad * 2;
+      const bg    = '#1a1a1a';
+      const fg    = '#ffffff';
 
-      const tmpImg = new Image();
-      tmpImg.onload = function () {
-        const c = document.createElement('canvas');
-        c.width = SIZE; c.height = SIZE;
-        c.style.cssText = 'display:block;border-radius:4px';
-        const ctx = c.getContext('2d');
-        ctx.drawImage(tmpImg, 0, 0, SIZE, SIZE);
-
-        /* Rekolorovanie: čierny modul → biely, biele pozadie → #1a1a1a */
-        const id = ctx.getImageData(0, 0, SIZE, SIZE);
-        const d  = id.data;
-        for (let i = 0; i < d.length; i += 4) {
-          const dark = d[i] < 128;
-          d[i]   = dark ? 255 : 26;
-          d[i+1] = dark ? 255 : 26;
-          d[i+2] = dark ? 255 : 26;
-          d[i+3] = 255;
+      // Zostavíme SVG ručne — ostrý vektor, žiadna rastrizácia
+      let rects = '';
+      for (let r = 0; r < n; r++) {
+        for (let c = 0; c < n; c++) {
+          if (qr.isDark(r, c)) {
+            rects += `<rect x="${c + pad}" y="${r + pad}" width="1" height="1"/>`;
+          }
         }
-        ctx.putImageData(id, 0, 0);
-        container.insertBefore(c, logoOverlay);
-      };
-      tmpImg.src = rawDataUrl;
+      }
+
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 ${total} ${total}"
+        width="140" height="140"
+        shape-rendering="crispEdges"
+        style="display:block;border-radius:4px">
+        <rect width="${total}" height="${total}" fill="${bg}"/>
+        <g fill="${fg}">${rects}</g>
+      </svg>`;
+
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = 'display:flex;align-items:center;justify-content:center;width:140px;height:140px';
+      wrapper.innerHTML = svg;
+      container.insertBefore(wrapper, logoOverlay);
 
     } catch (err) {
       console.warn('QR zlyhalo:', err);
@@ -522,11 +517,12 @@
 
         const imgData = canvas.toDataURL('image/jpeg', 0.97);
 
-        // Karta vrátane spadu
-        doc.addImage(imgData, 'JPEG',
-          margin - bleed, margin - bleed,
-          trimW + 2 * bleed, trimH + 2 * bleed
-        );
+        // Bleed: vyplníme tmavou farbou pozadia karty (pomer bleadu ≠ pomer karty)
+        doc.setFillColor(12, 15, 13); // #0c0f0d — tmavé pozadie karty
+        doc.rect(margin - bleed, margin - bleed, trimW + 2 * bleed, trimH + 2 * bleed, 'F');
+
+        // Karta presne na trim rozmery — bez skreslenia
+        doc.addImage(imgData, 'JPEG', margin, margin, trimW, trimH);
 
         // Ořezové značky (crop marks)
         drawCropMarks(doc, margin, margin, trimW, trimH, markLen, markGap);
